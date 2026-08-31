@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoLancamento {
+  FIXO
+  ADICIONAL
+  CARTAO
+}
+
+// Distingue as linhas de rollup dos fixos comuns, sem depender de regex na descrição (docs/PLANO_IMPLEMENTACAO.md §0.3)
+enum FixedItemRole {
+  NORMAL
+  ADDITIONAL_CEILING // a linha "Gastos Adicionais" / "Gastos Imprevisíveis": teto mensal dos avulsos
+  CARD_INVOICE // a linha "Fatura mês passado": recebe a soma do cartão do mês anterior
+}
+
+enum StatusLancamento {
+  PENDENTE // criado automaticamente no início do mês para itens fixos, aguardando valor realizado
+  REALIZADO
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String
+  createdAt    DateTime    @default(now())
+  categories   Category[]
+  fixedItems   FixedItem[]
+  expenses     Expense[]
+}
+
+model Category {
+  id         String      @id @default(uuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  name       String
+  order      Int         @default(0)
+  expenses   Expense[]
+  fixedItems FixedItem[]
+
+  @@unique([userId, name])
+}
+
+// Cadastro do item recorrente (Aluguel, Energia, Internet, Facul, Guardar, "Gastos Adicionais" como teto...)
+model FixedItem {
+  id            String        @id @default(uuid())
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  name          String
+  defaultBudget Decimal
+  role          FixedItemRole @default(NORMAL)
+  categoryId    String?
+  category      Category?     @relation(fields: [categoryId], references: [id])
+  active        Boolean       @default(true)
+  expenses      Expense[]
+}
+
+// O lançamento em si — linha da tabela de Fixos, Adicionais ou Cartão
+model Expense {
+  id          String           @id @default(uuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id])
+  date        DateTime
+  description String
+  amount      Decimal
+  budget      Decimal? // usado em FIXO (sempre) e CARTAO (opcional); nulo em ADICIONAL
+  type        TipoLancamento
+  status      StatusLancamento @default(REALIZADO)
+  categoryId  String
+  category    Category         @relation(fields: [categoryId], references: [id])
+  fixedItemId String? // vínculo com o item recorrente, quando type = FIXO
+  fixedItem   FixedItem?       @relation(fields: [fixedItemId], references: [id])
+  note        String? // presente no modelo do design; só exposto na UI na V2
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([userId, date])
+  @@index([userId, type])
+}
