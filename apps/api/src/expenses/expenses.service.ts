@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, type Expense, type TipoLancamento } from '@prisma/client';
 import { CategoriesService } from '../categories/categories.service.js';
+import { monthRange } from '../common/month-range.js';
 import { FixedItemsService } from '../fixed-items/fixed-items.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import type { CreateExpenseDto } from './dto/create-expense.dto.js';
@@ -177,12 +178,4 @@ export class ExpensesService {
       throw new BadRequestException('"fixedItemId" só é válido para lançamentos do tipo FIXO.');
     }
   }
-}
-
-function monthRange(yyyyMm: string): { gte: Date; lt: Date } {
-  const [year, month] = yyyyMm.split('-').map(Number);
-  return {
-    gte: new Date(Date.UTC(year, month - 1, 1)),
-    lt: new Date(Date.UTC(year, month, 1)),
-  };
 }
