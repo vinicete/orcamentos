@@ -30,6 +30,7 @@ fixedItem FixedItem? @relation(fields: [fixedItemId], references: [id], onDelete
 ```
 
 Migration nova: `20260901110942_fixed_item_restrict_on_delete`. Comportamento final, confirmado com um lançamento de teste real:
+
 - Excluir item fixo **sem** histórico → `204`.
 - Excluir item fixo **com** histórico → `409`, mensagem apontando pra usar `PATCH { active: false }` em vez de excluir.
 - Excluir categoria em uso (por `Expense` ou `FixedItem`) → sempre bloqueado (`409`) — essa relação já era obrigatória no schema, então já vinha `RESTRICT` por padrão; só confirmei que continua funcionando.
