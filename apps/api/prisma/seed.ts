@@ -3,6 +3,22 @@ import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
+// Lista inicial do PRD §6.3 — editável pelo usuário no app depois de criada.
+const DEFAULT_CATEGORIES = [
+  'Moradia',
+  'Alimentação',
+  'Transporte',
+  'Saúde',
+  'Educação',
+  'Lazer',
+  'Compras/Pessoal',
+  'Assinaturas',
+  'Poupança/Investimento',
+  'Dívidas/Fatura',
+  'Família/Presentes',
+  'Outros',
+];
+
 async function main() {
   const email = process.env.SEED_USER_EMAIL;
   const password = process.env.SEED_USER_PASSWORD;
@@ -18,7 +34,16 @@ async function main() {
     create: { email, passwordHash },
   });
 
+  for (const [index, name] of DEFAULT_CATEGORIES.entries()) {
+    await prisma.category.upsert({
+      where: { userId_name: { userId: user.id, name } },
+      update: {},
+      create: { userId: user.id, name, order: index },
+    });
+  }
+
   console.log(`Usuário pronto: ${user.email} (${user.id})`);
+  console.log(`Categorias padrão garantidas: ${DEFAULT_CATEGORIES.length}`);
 }
 
 main()

@@ -69,7 +69,7 @@ porCategoria = soma sobre TUDO exceto rollups (regime de competência:
 | 1 | Telas de **categorias** e **itens recorrentes** | Não existem no design — `CATS` é constante e os fixos vêm dos dados | Manter no escopo (PRD §6.3/§7.3), desenhar seguindo o mesmo padrão de lista do Entries |
 | 2 | **Busca por texto** | Está no design (campo "Search description…") | Promover de V2 (§8 do PRD) para MVP — é barato, é só um `ILIKE` |
 | 3 | **Importar histórico da planilha** | O design já vem com os 361 lançamentos Fev–Set/2026 | Promover de V2 para MVP como *script de seed* (Fase 2b) — é o que torna a tela de Trends útil desde o dia 1 |
-| 4 | **Idioma** | UI e categorias em inglês (Housing, Food…), dados em português (Aluguel, Fatura mês passado) | **Decisão pendente sua.** Recomendo UI e categorias em pt-BR (§6.3 do PRD já lista as 12 em português) e manter o layout idêntico; se preferir manter em inglês, é só não traduzir |
+| 4 | **Idioma** | UI e categorias em inglês (Housing, Food…), dados em português (Aluguel, Fatura mês passado) | **Decidido**: pt-BR agora (categorias do PRD §6.3, layout idêntico ao design). Suporte a múltiplos idiomas fica no Backlog V2 — ver nota lá embaixo |
 | 5 | **Gráficos / Recharts** | O design faz barras empilhadas com `div`s e a linha com `<svg><polyline>` — sem biblioteca | Recomendo **remover o Recharts da §1**: o default do Recharts (cantos arredondados, eixos, tooltip próprio) briga com o visual de raio 0, e o código do protótipo já resolve os dois gráficos em ~20 linhas |
 | 6 | **Abas de mês fixas** | 8 meses hard-coded (Fev–Set/2026) | No app real: derivar do range de dados + navegação de ano (`‹ 2026 ›`) |
 | 7 | **Persistência** | `localStorage` + botão "Reset to sheet data" | Vira API + Postgres; o botão de reset só faz sentido em dev (pode virar um `pnpm db:seed`) |
@@ -315,6 +315,8 @@ Fica na **Fase 11 (Polish)** como item opcional, ou vai pro backlog V2 se quiser
 - Dockerfile de API, build da Vercel para o web, migrations rodando no deploy, secrets, domínio
 
 **Backlog V2** (fica só registrado, não faz parte do MVP): alertas de orçado ultrapassado, export CSV, metas de poupança, notas por lançamento, toggle `typeView: sections` (as três tabelas da planilha lado a lado), dark mode se não entrar na Fase 11. Busca textual e importação do histórico saíram do backlog e entraram no MVP (§0.4 #2 e #3).
+
+**Internacionalização (i18n)**: MVP é pt-BR (§0.4 #4). Categorias em si já não são um problema — são dados do usuário (linhas na tabela `Category`, editáveis por ele), não um enum fixo, então já nascem "traduzíveis" por natureza. O que falta pra multi-idioma de verdade é a camada de textos fixos da UI (labels, botões, mensagens) quando o frontend existir — solução natural é algo como `next-intl`/`next-i18next` na Fase 5 em diante, fora do escopo do MVP.
 
 ## 6. Ordem sugerida de execução
 
