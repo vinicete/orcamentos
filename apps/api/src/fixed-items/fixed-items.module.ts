@@ -7,5 +7,6 @@ import { FixedItemsService } from './fixed-items.service.js';
   imports: [CategoriesModule],
   controllers: [FixedItemsController],
   providers: [FixedItemsService],
+  exports: [FixedItemsService],
 })
 export class FixedItemsModule {}
