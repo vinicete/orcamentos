@@ -5,6 +5,8 @@ node_modules/
 # Next.js
 apps/web/.next/
 apps/web/out/
+next-env.d.ts
+.vercel
 
 # NestJS / TypeScript build output
 apps/api/dist/

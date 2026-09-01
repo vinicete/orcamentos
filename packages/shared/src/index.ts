@@ -1,3 +1,6 @@
 // Tipos e DTOs compartilhados entre apps/web e apps/api.
-// Populado a partir da Fase 1 (enums do Prisma) e Fase 3 (DTOs de Expense).
-export {};
+export * from './types';
+export * from './api-client';
+export * from './category-colors';
+export * from './format';
+export * from './date';
