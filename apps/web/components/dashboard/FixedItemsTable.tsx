@@ -3,7 +3,7 @@ import { SectionLabel } from '@/components/ui/section-label';
 
 function DeltaCell({ row }: { row: FixedItemRow }) {
   if (row.status === 'PENDENTE' || row.delta === null) {
-    return <span className="text-xs text-neutral-500 uppercase">pendente</span>;
+    return <span className="text-xs text-neutral-700 uppercase">pendente</span>;
   }
   // delta = orçado - realizado (Fase 4): negativo é estouro. Só esse caso usa o accent puro (§4.2).
   const overBy = -row.delta;

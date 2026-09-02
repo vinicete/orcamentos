@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import {
+  ApiError,
   formatCurrency,
   getCategoryColor,
   type Category,
@@ -16,12 +17,24 @@ import { TotalLineChart } from './TotalLineChart';
 export function TrendsView({ month }: { month: string }) {
   const [trend, setTrend] = useState<TrendResponse | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let ignore = false;
-    api.getDashboardTrend().then((t) => {
-      if (!ignore) setTrend(t);
-    });
+    api
+      .getDashboardTrend()
+      .then((t) => {
+        if (ignore) return;
+        setError(null);
+        setTrend(t);
+      })
+      .catch((err) => {
+        if (!ignore) {
+          setError(
+            err instanceof ApiError ? err.message : 'Não foi possível carregar as tendências.',
+          );
+        }
+      });
     return () => {
       ignore = true;
     };
@@ -37,6 +50,7 @@ export function TrendsView({ month }: { month: string }) {
     };
   }, []);
 
+  if (error) return <div className="text-sm text-accent-700">{error}</div>;
   if (!trend) return <div className="text-sm text-neutral-700">Carregando…</div>;
 
   const colorByCategoryId = new Map(categories.map((c) => [c.id, getCategoryColor(c.order)]));

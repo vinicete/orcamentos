@@ -58,7 +58,7 @@ export function PendingFixedList({ items, onPaid }: { items: PendingItem[]; onPa
               <button
                 type="button"
                 onClick={() => startPay(item)}
-                className="shrink-0 text-xs tracking-[.04em] text-neutral-500 uppercase underline decoration-dotted"
+                className="shrink-0 text-xs tracking-[.04em] text-neutral-700 uppercase underline decoration-dotted"
               >
                 pendente
               </button>

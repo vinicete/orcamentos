@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { formatCurrency, type DashboardSummary } from '@orcamento/shared';
+import { ApiError, formatCurrency, type DashboardSummary } from '@orcamento/shared';
 import { MeterBar } from '@/components/ui/meter-bar';
 import { SectionLabel } from '@/components/ui/section-label';
 import { api } from '@/lib/api-client';
@@ -19,16 +19,34 @@ export function SummaryRail({
   className?: string;
 }) {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let ignore = false;
-    api.getDashboardSummary(month).then((s) => {
-      if (!ignore) setSummary(s);
-    });
+    api
+      .getDashboardSummary(month)
+      .then((s) => {
+        if (ignore) return;
+        setError(null);
+        setSummary(s);
+      })
+      .catch((err) => {
+        if (!ignore) {
+          setError(err instanceof ApiError ? err.message : 'Não foi possível carregar o resumo.');
+        }
+      });
     return () => {
       ignore = true;
     };
   }, [month, refreshKey]);
+
+  if (error) {
+    return (
+      <aside className={className}>
+        <p className="border-2 border-accent-700 p-3 text-xs text-accent-700">{error}</p>
+      </aside>
+    );
+  }
 
   if (!summary) return <aside className={className} />;
 

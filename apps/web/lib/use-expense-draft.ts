@@ -62,6 +62,7 @@ export function useExpenseDraft(month: string, onSaved?: () => void) {
   const [draft, setDraft] = useState<ExpenseDraft>(initialDraft);
   const [savedMessage, setSavedMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   // Só é true antes do primeiro carregamento — trocar de mês não volta a mostrar "Carregando…"
   // (evita o flash; a lista antiga fica visível até a nova chegar).
@@ -69,15 +70,22 @@ export function useExpenseDraft(month: string, onSaved?: () => void) {
 
   useEffect(() => {
     let ignore = false;
-    Promise.all([api.getCategories(), api.getFixedItems(), api.getDashboardSummary(month)]).then(
-      ([cats, items, sum]) => {
+    Promise.all([api.getCategories(), api.getFixedItems(), api.getDashboardSummary(month)])
+      .then(([cats, items, sum]) => {
         if (ignore) return;
+        setLoadError(null);
         setCategories(cats);
         setFixedItems(items);
         setSummary(sum);
         setDraft((d) => (d.categoryId ? d : { ...d, categoryId: cats[0]?.id ?? '' }));
-      },
-    );
+      })
+      .catch((err) => {
+        if (!ignore) {
+          setLoadError(
+            err instanceof ApiError ? err.message : 'Não foi possível carregar o formulário.',
+          );
+        }
+      });
     return () => {
       ignore = true;
     };
@@ -168,6 +176,7 @@ export function useExpenseDraft(month: string, onSaved?: () => void) {
     saving,
     loading,
     error,
+    loadError,
     hint: savedMessage ?? contextualHint(draft, summary),
   };
 }

@@ -3,6 +3,7 @@
 import { useState, type KeyboardEvent } from 'react';
 import { ApiError, type Category } from '@orcamento/shared';
 import { api } from '@/lib/api-client';
+import { useConfirmDialog } from '@/lib/confirm-context';
 
 export function CategoryRow({
   category,
@@ -11,6 +12,7 @@ export function CategoryRow({
   category: Category;
   onChanged: () => void;
 }) {
+  const { confirm, alert } = useConfirmDialog();
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(category.name);
   const [saving, setSaving] = useState(false);
@@ -42,12 +44,12 @@ export function CategoryRow({
   }
 
   async function remove() {
-    if (!window.confirm(`Excluir a categoria "${category.name}"?`)) return;
+    if (!(await confirm(`Excluir a categoria "${category.name}"?`))) return;
     try {
       await api.deleteCategory(category.id);
       onChanged();
     } catch (err) {
-      window.alert(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
+      await alert(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   }
 
@@ -105,7 +107,7 @@ export function CategoryRow({
           remove();
         }}
         aria-label="Excluir categoria"
-        className="shrink-0 cursor-pointer px-1 text-neutral-400 hover:text-accent"
+        className="shrink-0 cursor-pointer px-1 text-neutral-700 hover:text-accent"
       >
         ×
       </button>

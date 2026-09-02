@@ -11,6 +11,7 @@ import {
   type Expense,
 } from '@orcamento/shared';
 import { api } from '@/lib/api-client';
+import { useConfirmDialog } from '@/lib/confirm-context';
 
 interface EditForm {
   date: string;
@@ -40,6 +41,7 @@ export function EntryRow({
   categories: Category[];
   onChanged: () => void;
 }) {
+  const { confirm } = useConfirmDialog();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState<EditForm>(() => toEditForm(expense));
   const [saving, setSaving] = useState(false);
@@ -86,7 +88,7 @@ export function EntryRow({
   }
 
   async function remove() {
-    if (!window.confirm(`Excluir "${expense.description}"?`)) return;
+    if (!(await confirm(`Excluir "${expense.description}"?`))) return;
     await api.deleteExpense(expense.id);
     onChanged();
   }
@@ -176,7 +178,7 @@ export function EntryRow({
       <span className="min-w-0 flex-1 truncate">{expense.description}</span>
       <span className="hidden shrink-0 text-xs text-neutral-700 sm:block">{category?.name}</span>
       {isPending ? (
-        <span className="w-24 shrink-0 text-right text-xs text-neutral-500 uppercase">
+        <span className="w-24 shrink-0 text-right text-xs text-neutral-700 uppercase">
           — <span className="block text-[9px] tracking-[.06em]">pendente</span>
         </span>
       ) : (
@@ -191,7 +193,7 @@ export function EntryRow({
           remove();
         }}
         aria-label="Excluir lançamento"
-        className="shrink-0 cursor-pointer px-1 text-neutral-400 hover:text-accent"
+        className="shrink-0 cursor-pointer px-1 text-neutral-700 hover:text-accent"
       >
         ×
       </button>

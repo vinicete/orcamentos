@@ -10,6 +10,7 @@ import {
   type FixedItemRole,
 } from '@orcamento/shared';
 import { api } from '@/lib/api-client';
+import { useConfirmDialog } from '@/lib/confirm-context';
 
 const ROLE_LABEL: Record<FixedItemRole, string> = {
   NORMAL: 'Normal',
@@ -46,6 +47,7 @@ export function FixedItemRow({
   hasCardInvoice: boolean;
   onChanged: () => void;
 }) {
+  const { confirm, alert } = useConfirmDialog();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState<EditForm>(() => toForm(item));
   const [saving, setSaving] = useState(false);
@@ -88,17 +90,17 @@ export function FixedItemRow({
       await api.updateFixedItem(item.id, { active: !item.active });
       onChanged();
     } catch (err) {
-      window.alert(err instanceof ApiError ? err.message : 'Não foi possível atualizar.');
+      await alert(err instanceof ApiError ? err.message : 'Não foi possível atualizar.');
     }
   }
 
   async function remove() {
-    if (!window.confirm(`Excluir "${item.name}"?`)) return;
+    if (!(await confirm(`Excluir "${item.name}"?`))) return;
     try {
       await api.deleteFixedItem(item.id);
       onChanged();
     } catch (err) {
-      window.alert(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
+      await alert(err instanceof ApiError ? err.message : 'Não foi possível excluir.');
     }
   }
 
@@ -192,7 +194,7 @@ export function FixedItemRow({
         {category?.name ?? '—'}
       </span>
       {item.role !== 'NORMAL' && (
-        <span className="shrink-0 text-[10px] tracking-[.04em] text-neutral-500 uppercase">
+        <span className="shrink-0 text-[10px] tracking-[.04em] text-neutral-700 uppercase">
           {ROLE_LABEL[item.role]}
         </span>
       )}
@@ -206,7 +208,7 @@ export function FixedItemRow({
           toggleActive();
         }}
         className={`shrink-0 text-[10px] tracking-[.04em] uppercase ${
-          item.active ? 'text-text' : 'text-neutral-400'
+          item.active ? 'text-text' : 'text-neutral-700'
         }`}
       >
         {item.active ? 'ativo' : 'inativo'}
@@ -218,7 +220,7 @@ export function FixedItemRow({
           remove();
         }}
         aria-label="Excluir item fixo"
-        className="shrink-0 cursor-pointer px-1 text-neutral-400 hover:text-accent"
+        className="shrink-0 cursor-pointer px-1 text-neutral-700 hover:text-accent"
       >
         ×
       </button>

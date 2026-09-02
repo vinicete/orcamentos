@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import {
+  ApiError,
   formatCurrency,
   monthShortLabel,
   type Category,
@@ -25,6 +26,7 @@ export function EntryList({
   onChanged: () => void;
 }) {
   const [expenses, setExpenses] = useState<Expense[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [qInput, setQInput] = useState('');
   const [q, setQ] = useState('');
   const [type, setType] = useState<TipoLancamento | ''>('');
@@ -46,7 +48,16 @@ export function EntryList({
         categoryId: categoryId || undefined,
       })
       .then((data) => {
-        if (!ignore) setExpenses(data);
+        if (ignore) return;
+        setError(null);
+        setExpenses(data);
+      })
+      .catch((err) => {
+        if (!ignore) {
+          setError(
+            err instanceof ApiError ? err.message : 'Não foi possível carregar os lançamentos.',
+          );
+        }
       });
     return () => {
       ignore = true;
@@ -69,25 +80,30 @@ export function EntryList({
 
       <div className="mb-2 flex items-baseline justify-between border-b-2 border-text pb-1.5">
         <SectionLabel>
-          {expenses
-            ? `${expenses.length} lançamento${expenses.length === 1 ? '' : 's'} · ${monthShortLabel(month)}`
-            : 'Carregando…'}
+          {error
+            ? 'Erro ao carregar'
+            : expenses
+              ? `${expenses.length} lançamento${expenses.length === 1 ? '' : 's'} · ${monthShortLabel(month)}`
+              : 'Carregando…'}
         </SectionLabel>
-        <span className="font-heading text-sm font-bold">{formatCurrency(total)}</span>
+        {!error && <span className="font-heading text-sm font-bold">{formatCurrency(total)}</span>}
       </div>
 
-      {expenses?.length === 0 && (
+      {error && <p className="py-6 text-center text-sm text-accent-700">{error}</p>}
+
+      {!error && expenses?.length === 0 && (
         <p className="py-6 text-center text-sm text-neutral-700">Nenhum lançamento encontrado.</p>
       )}
 
-      {expenses?.map((expense) => (
-        <EntryRow
-          key={expense.id}
-          expense={expense}
-          categories={categories}
-          onChanged={onChanged}
-        />
-      ))}
+      {!error &&
+        expenses?.map((expense) => (
+          <EntryRow
+            key={expense.id}
+            expense={expense}
+            categories={categories}
+            onChanged={onChanged}
+          />
+        ))}
     </div>
   );
 }

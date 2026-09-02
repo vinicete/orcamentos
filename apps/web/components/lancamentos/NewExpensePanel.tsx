@@ -7,6 +7,10 @@ import { QuickEntrySheet } from './QuickEntrySheet';
 export function NewExpensePanel({ month, onSaved }: { month: string; onSaved?: () => void }) {
   const draft = useExpenseDraft(month, onSaved);
 
+  if (draft.loadError) {
+    return <div className="mb-6 text-sm text-accent-700">{draft.loadError}</div>;
+  }
+
   if (draft.loading) {
     return <div className="mb-6 text-sm text-neutral-700">Carregando…</div>;
   }
