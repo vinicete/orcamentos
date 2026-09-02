@@ -1,4 +1,8 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
 
 /*
  * Tokens portados do design (Claude Design, ds-modernist.css) — ver
@@ -8,7 +12,8 @@
  * (bg-accent, text-neutral-700, rounded, shadow-md, ...).
  *
  * Dark mode fica pra Fase 11 (docs/PLANO_IMPLEMENTACAO.md §4.4) — por ora só
- * a paleta clara existe.
+ * a paleta clara existe. `@custom-variant dark` acima já veio do shadcn init
+ * e é exatamente a estratégia (`darkMode: 'class'`) que a Fase 11 vai usar.
  */
 @theme {
   --color-bg: #f3f2f2;
@@ -75,4 +80,60 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-neutral-400);
+}
+
+/*
+ * Camada de compatibilidade com o shadcn/ui (Sheet/Dialog/etc. — só o que a
+ * Fase 6 em diante precisa). Os componentes gerados pelo `shadcn add` usam
+ * classes como `bg-background`/`border-input`/`ring-ring`; em vez de editar
+ * cada componente gerado, mapeamos os nomes semânticos do shadcn pros NOSSOS
+ * tokens acima, uma vez só, aqui.
+ *
+ * `--color-accent`/`--color-accent-foreground` do preset padrão do shadcn
+ * (init) foram REMOVIDOS de propósito: colidiam com o `--color-accent` da
+ * nossa marca (mesmo nome, o do shadcn é só um cinza neutro de hover) — a
+ * nossa cor de marca já definida acima nesse arquivo é a única que sobra.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --background: var(--color-bg);
+  --foreground: var(--color-text);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-text);
+  --popover: var(--color-bg);
+  --popover-foreground: var(--color-text);
+  --primary: var(--color-accent);
+  --primary-foreground: var(--color-bg);
+  --secondary: var(--color-neutral-200);
+  --secondary-foreground: var(--color-text);
+  --muted: var(--color-neutral-200);
+  --muted-foreground: var(--color-neutral-700);
+  --destructive: var(--color-accent-700);
+  --border: var(--color-divider);
+  --input: var(--color-divider);
+  --ring: var(--color-accent);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
 }

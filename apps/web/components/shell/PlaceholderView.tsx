@@ -1,4 +1,4 @@
-import { SectionLabel } from '@/components/ui/SectionLabel';
+import { SectionLabel } from '@/components/ui/section-label';
 
 export function PlaceholderView({
   title,

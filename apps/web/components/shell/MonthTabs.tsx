@@ -13,7 +13,7 @@ export function MonthTabs() {
   const months = lastNMonths(VISIBLE_MONTHS);
 
   return (
-    <div className="flex gap-1.5 overflow-x-auto px-5 pb-2.5">
+    <div className="mx-auto flex max-w-[1320px] gap-1.5 overflow-x-auto px-5 pb-2.5">
       {months.map((m) => {
         const params = new URLSearchParams(searchParams);
         params.set('mes', m);

@@ -1,3 +1,4 @@
+import { MobileSecondaryNav } from './MobileSecondaryNav';
 import { MonthTabs } from './MonthTabs';
 import { NavLinks } from './NavLinks';
 import { SignOutButton } from './SignOutButton';
@@ -10,6 +11,7 @@ export function Header() {
           ORÇAMENTO<span className="text-accent">.</span>
         </div>
         <NavLinks />
+        <MobileSecondaryNav />
         <SignOutButton />
       </div>
       <MonthTabs />

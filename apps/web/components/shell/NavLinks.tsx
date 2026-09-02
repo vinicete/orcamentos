@@ -2,23 +2,19 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { NAV_PRIMARY, NAV_SECONDARY } from './nav-items';
 
-const NAV_ITEMS = [
-  { href: '/lancamentos', label: 'Lançamentos' },
-  { href: '/dashboard', label: 'Dashboard' },
-  { href: '/tendencias', label: 'Tendências' },
-  { href: '/recorrentes', label: 'Recorrentes' },
-  { href: '/categorias', label: 'Categorias' },
-];
+const ALL_ITEMS = [...NAV_PRIMARY, ...NAV_SECONDARY];
 
+/** Nav completo (5 seções) — só no header desktop; no mobile o essencial vira BottomNav. */
 export function NavLinks() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const qs = searchParams.toString();
 
   return (
-    <nav className="flex items-center gap-5 overflow-x-auto">
-      {NAV_ITEMS.map((item) => {
+    <nav className="hidden items-center gap-5 overflow-x-auto md:flex">
+      {ALL_ITEMS.map((item) => {
         const active = pathname === item.href;
         return (
           <Link

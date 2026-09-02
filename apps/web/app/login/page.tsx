@@ -3,10 +3,10 @@
 import { ApiError, currentMonthKey } from '@orcamento/shared';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Label } from '@/components/ui/Label';
-import { SectionLabel } from '@/components/ui/SectionLabel';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { SectionLabel } from '@/components/ui/section-label';
 import { api } from '@/lib/api-client';
 
 export default function LoginPage() {
