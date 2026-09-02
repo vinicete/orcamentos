@@ -309,6 +309,8 @@ Fica na **Fase 11 (Polish)** como item opcional, ou vai pro backlog V2 se quiser
 **Fase 11 — Polish**
 - Estados vazios/loading/erro, QA em viewport de celular real (bottom nav, bottom sheet, rail escondido)
 - Acessibilidade: o design usa `:focus-visible` com outline accent — validar contraste do texto neutro sobre `--color-surface`
+- **Diálogo de confirmação** (Dialog do shadcn, no padrão visual do app) no lugar do `window.confirm` nativo usado hoje na exclusão de lançamento (Fase 7) — feedback do usuário após testar a Fase 7, decidiu-se adiar pra cá em vez de interromper a sequência de fases
+- **`MonthTabs` não alcança meses fora da janela dos últimos 12** (nem passado nem futuro — ex.: um lançamento cadastrado com data futura só é visível passando `?mes=` na URL manualmente): implementar a navegação de ano (`‹ 2026 ›`) já prevista na §0.4 #6, derivando as abas do range real de dados em vez de `lastNMonths(12)` fixo — confirmado como limitação real na revisão da Fase 7
 - **Dark mode** (§4.4) — opcional aqui, ou V2
 
 **Fase 12 — Deploy**

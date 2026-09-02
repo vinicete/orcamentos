@@ -55,7 +55,7 @@ function contextualHint(draft: ExpenseDraft, summary: DashboardSummary | null): 
 }
 
 /** Estado de rascunho compartilhado entre QuickEntryRow (desktop) e QuickEntrySheet (mobile). */
-export function useExpenseDraft(month: string) {
+export function useExpenseDraft(month: string, onSaved?: () => void) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [fixedItems, setFixedItems] = useState<FixedItem[]>([]);
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
@@ -150,6 +150,7 @@ export function useExpenseDraft(month: string) {
       setSavedMessage(`${TYPE_LABEL[draft.type]} salvo — ${formatCurrency(amount)}`);
       setDraft((d) => ({ ...d, description: '', amount: '', budget: '', fixedItemId: undefined }));
       setSummary(await api.getDashboardSummary(month));
+      onSaved?.();
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Não foi possível salvar o lançamento.');
     } finally {

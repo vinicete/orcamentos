@@ -1,6 +1,5 @@
 import { currentMonthKey } from '@orcamento/shared';
-import { NewExpensePanel } from '@/components/lancamentos/NewExpensePanel';
-import { PlaceholderView } from '@/components/shell/PlaceholderView';
+import { LancamentosView } from '@/components/lancamentos/LancamentosView';
 
 export default async function LancamentosPage({
   searchParams,
@@ -9,10 +8,5 @@ export default async function LancamentosPage({
 }) {
   const { mes } = await searchParams;
   const month = mes ?? currentMonthKey();
-  return (
-    <div>
-      <NewExpensePanel month={month} />
-      <PlaceholderView title="Lançamentos" month={month} phase="Fase 7" />
-    </div>
-  );
+  return <LancamentosView month={month} />;
 }

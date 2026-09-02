@@ -33,3 +33,9 @@ export function monthShortLabel(yyyyMm: string): string {
   const month = Number(yyyyMm.split('-')[1]);
   return MONTH_LABELS_PT[month - 1];
 }
+
+/** "2026-08-01T00:00:00.000Z" -> "01/08". UTC de propósito: datas são meia-noite UTC, e ler com o fuso local pode voltar um dia. */
+export function formatDayMonth(isoDate: string): string {
+  const d = new Date(isoDate);
+  return `${String(d.getUTCDate()).padStart(2, '0')}/${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+}
