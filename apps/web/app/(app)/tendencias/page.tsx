@@ -1,5 +1,5 @@
 import { currentMonthKey } from '@orcamento/shared';
-import { PlaceholderView } from '@/components/shell/PlaceholderView';
+import { TrendsView } from '@/components/tendencias/TrendsView';
 
 export default async function TendenciasPage({
   searchParams,
@@ -7,5 +7,6 @@ export default async function TendenciasPage({
   searchParams: Promise<{ mes?: string }>;
 }) {
   const { mes } = await searchParams;
-  return <PlaceholderView title="Tendências" month={mes ?? currentMonthKey()} phase="Fase 9" />;
+  const month = mes ?? currentMonthKey();
+  return <TrendsView month={month} />;
 }
