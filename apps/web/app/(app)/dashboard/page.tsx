@@ -1,5 +1,5 @@
 import { currentMonthKey } from '@orcamento/shared';
-import { PlaceholderView } from '@/components/shell/PlaceholderView';
+import { DashboardView } from '@/components/dashboard/DashboardView';
 
 export default async function DashboardPage({
   searchParams,
@@ -7,5 +7,6 @@ export default async function DashboardPage({
   searchParams: Promise<{ mes?: string }>;
 }) {
   const { mes } = await searchParams;
-  return <PlaceholderView title="Dashboard" month={mes ?? currentMonthKey()} phase="Fase 8" />;
+  const month = mes ?? currentMonthKey();
+  return <DashboardView month={month} />;
 }
