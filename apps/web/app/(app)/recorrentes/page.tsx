@@ -1,11 +1,5 @@
-import { currentMonthKey } from '@orcamento/shared';
-import { PlaceholderView } from '@/components/shell/PlaceholderView';
+import { RecorrentesView } from '@/components/recorrentes/RecorrentesView';
 
-export default async function RecorrentesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ mes?: string }>;
-}) {
-  const { mes } = await searchParams;
-  return <PlaceholderView title="Recorrentes" month={mes ?? currentMonthKey()} phase="Fase 10" />;
+export default function RecorrentesPage() {
+  return <RecorrentesView />;
 }
