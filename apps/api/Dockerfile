@@ -14,4 +14,4 @@ RUN pnpm --filter @orcamento/api prisma:generate
 RUN pnpm --filter @orcamento/api build
 
 ENV NODE_ENV=production
-CMD ["node", "apps/api/dist/main.js"]
+CMD ["sh", "-c", "cd apps/api && npx prisma migrate deploy && node dist/main.js"]
