@@ -50,16 +50,17 @@ export class AuthController {
 
   private setAuthCookies(res: Response, tokens: AuthTokens) {
     const secure = this.config.get<string>('NODE_ENV') === 'production';
+    const sameSite = secure ? 'none' : 'lax';
     res.cookie('access_token', tokens.accessToken, {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite,
       secure,
       path: '/',
       maxAge: durationToMs(this.config.get<string>('JWT_ACCESS_EXPIRES_IN', '15m')),
     });
     res.cookie('refresh_token', tokens.refreshToken, {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite,
       secure,
       path: '/',
       maxAge: durationToMs(this.config.get<string>('JWT_REFRESH_EXPIRES_IN', '7d')),
