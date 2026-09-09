@@ -51,10 +51,12 @@ export class AuthController {
   private setAuthCookies(res: Response, tokens: AuthTokens) {
     const secure = this.config.get<string>('NODE_ENV') === 'production';
     const sameSite = secure ? 'none' : 'lax';
+    const domain = secure ? '.orcamento.jeenyuhs.com.br' : undefined;
     res.cookie('access_token', tokens.accessToken, {
       httpOnly: true,
       sameSite,
       secure,
+      domain,
       path: '/',
       maxAge: durationToMs(this.config.get<string>('JWT_ACCESS_EXPIRES_IN', '15m')),
     });
@@ -62,6 +64,7 @@ export class AuthController {
       httpOnly: true,
       sameSite,
       secure,
+      domain,
       path: '/',
       maxAge: durationToMs(this.config.get<string>('JWT_REFRESH_EXPIRES_IN', '7d')),
     });
