@@ -1,7 +1,6 @@
 'use client';
 
 import { ApiError, currentMonthKey } from '@orcamento/shared';
-import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +9,6 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { api } from '@/lib/api-client';
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -22,10 +20,13 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await api.login(email, password);
-      (document.activeElement as HTMLElement | null)?.blur();
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      router.push(`/lancamentos?mes=${currentMonthKey()}`);
-      router.refresh();
+      // Navegação "dura" (recarrega a página), não router.push: numa troca client-side o
+      // navegador não reprocessa a <meta viewport>, então o zoom que o Android aplicou
+      // enquanto o teclado estava aberto no campo de senha fica "grudado" na tela seguinte
+      // (bug real em produção — Fase 12; só um pinch manual do usuário resetava depois). Um
+      // recarregamento de verdade força o navegador a reprocessar o viewport do zero.
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+      window.location.href = `/lancamentos?mes=${currentMonthKey()}`;
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Não foi possível entrar.');
       setLoading(false);
