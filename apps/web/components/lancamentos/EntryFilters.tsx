@@ -18,19 +18,25 @@ function TypeFilter({
   onChange: (value: TypeFilterValue) => void;
 }) {
   return (
-    <div className="flex border border-divider">
-      {TYPE_OPTIONS.map((opt) => (
-        <button
-          key={opt.value || 'all'}
-          type="button"
-          onClick={() => onChange(opt.value)}
-          className={`border-r border-divider px-3 py-2 text-xs font-heading tracking-[.06em] uppercase last:border-r-0 ${
-            value === opt.value ? 'bg-accent text-bg' : 'bg-transparent text-text'
-          }`}
-        >
-          {opt.label}
-        </button>
-      ))}
+    // min-w-0 + overflow-x-auto: com "Adicional" no meio, esse bloco sozinho já chega perto
+    // da largura útil de um celular estreito — sem isso, ele força a página inteira a ficar
+    // mais larga que a viewport em vez de só rolar por conta própria (bug achado em produção,
+    // Fase 12).
+    <div className="min-w-0 overflow-x-auto">
+      <div className="flex border border-divider">
+        {TYPE_OPTIONS.map((opt) => (
+          <button
+            key={opt.value || 'all'}
+            type="button"
+            onClick={() => onChange(opt.value)}
+            className={`border-r border-divider px-3 py-2 text-xs font-heading tracking-[.06em] whitespace-nowrap uppercase last:border-r-0 ${
+              value === opt.value ? 'bg-accent text-bg' : 'bg-transparent text-text'
+            }`}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

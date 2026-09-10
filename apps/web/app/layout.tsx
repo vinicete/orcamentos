@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${archivo.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-bg text-text font-sans">
+      <body className="min-h-full flex flex-col overflow-x-hidden bg-bg text-text font-sans">
         <ConfirmProvider>{children}</ConfirmProvider>
       </body>
     </html>

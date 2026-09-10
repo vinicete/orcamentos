@@ -37,9 +37,10 @@ export class AuthController {
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   logout(@Res({ passthrough: true }) res: Response) {
-
     const domain =
-    this.config.get<string>('NODE_ENV') === 'production' ? '.orcamento.jeenyuhs.com.br' : undefined;
+      this.config.get<string>('NODE_ENV') === 'production'
+        ? '.orcamento.jeenyuhs.com.br'
+        : undefined;
 
     res.clearCookie('access_token', { path: '/', domain });
     res.clearCookie('refresh_token', { path: '/', domain });
