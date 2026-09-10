@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Archivo } from 'next/font/google';
 import { ConfirmProvider } from '@/lib/confirm-context';
 import './globals.css';
@@ -12,6 +12,12 @@ const archivo = Archivo({
 export const metadata: Metadata = {
   title: 'Orçamento',
   description: 'Controle de orçamento pessoal — fixo, adicional e cartão numa base só.',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
