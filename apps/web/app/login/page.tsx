@@ -22,6 +22,8 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await api.login(email, password);
+      (document.activeElement as HTMLElement | null)?.blur();
+      await new Promise((resolve) => setTimeout(resolve, 100));
       router.push(`/lancamentos?mes=${currentMonthKey()}`);
       router.refresh();
     } catch (err) {
