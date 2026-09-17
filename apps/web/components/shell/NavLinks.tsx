@@ -6,7 +6,7 @@ import { NAV_PRIMARY, NAV_SECONDARY } from './nav-items';
 
 const ALL_ITEMS = [...NAV_PRIMARY, ...NAV_SECONDARY];
 
-/** Nav completo (5 seções) — só no header desktop; no mobile o essencial vira BottomNav. */
+/** Nav completo (5 seções) — só no header desktop; no mobile vira o menu hamburguer (MobileNav). */
 export function NavLinks() {
   const pathname = usePathname();
   const searchParams = useSearchParams();

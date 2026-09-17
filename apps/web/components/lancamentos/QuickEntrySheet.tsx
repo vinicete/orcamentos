@@ -23,7 +23,7 @@ export function QuickEntrySheet({ draft: d }: { draft: Draft }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Novo lançamento"
-        className="fixed right-5 bottom-20 z-40 flex size-14 cursor-pointer items-center justify-center bg-accent text-3xl font-bold text-bg shadow-lg hover:bg-accent-600 md:hidden"
+        className="fixed right-5 bottom-5 z-40 flex size-14 cursor-pointer items-center justify-center bg-accent text-3xl font-bold text-bg shadow-lg hover:bg-accent-600 md:hidden"
       >
         +
       </button>
