@@ -90,6 +90,36 @@ body {
   background: var(--color-neutral-400);
 }
 
+/* Degradê nas bordas da faixa de meses (MonthTabs) — sinaliza que tem mais conteúdo pros
+   lados sem precisar de seta ou indicador extra. Sem utility do Tailwind pra mask-image. */
+.month-scroll-fade {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 20px,
+    black calc(100% - 20px),
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 20px,
+    black calc(100% - 20px),
+    transparent
+  );
+}
+
+/* Some o scrollbar de uma área rolável, sem desligar o scroll em si — a barra visível
+   (mesmo fina, via ::-webkit-scrollbar acima) empurrava o conteúdo pra baixo do baseline
+   do texto vizinho (o seletor de ano do MonthTabs, por exemplo). */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /*
  * Camada de compatibilidade com o shadcn/ui (Sheet/Dialog/etc. — só o que a
  * Fase 6 em diante precisa). Os componentes gerados pelo `shadcn add` usam

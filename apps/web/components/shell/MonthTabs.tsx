@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { currentMonthKey, monthShortLabel } from '@orcamento/shared';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -28,13 +28,22 @@ export function MonthTabs() {
     setViewYear(selectedYear);
   }
 
+  // Centraliza o mês selecionado na faixa rolável sempre que ele (ou o ano visível) mudar —
+  // esse sim é efeito de verdade (ação imperativa no DOM, não setState), então useEffect normal.
+  const activeRef = useRef<HTMLAnchorElement>(null);
+  useEffect(() => {
+    activeRef.current?.scrollIntoView({ behavior: 'instant', inline: 'center', block: 'nearest' });
+  }, [selected, viewYear]);
+
   const months = Array.from(
     { length: 12 },
     (_, i) => `${viewYear}-${String(i + 1).padStart(2, '0')}`,
   );
 
   return (
-    <div className="mx-auto flex max-w-[1320px] items-center gap-3 overflow-x-auto px-5 pb-2.5">
+    <div className="mx-auto flex max-w-[1320px] items-center gap-3 px-5 pb-2.5">
+      {/* Seletor de ano fica de fora da faixa rolável — antes ele "sumia" pra esquerda
+          quando você rolava os meses pra direita. */}
       <div className="flex shrink-0 items-center gap-1 font-heading text-xs tracking-[.08em]">
         <button
           type="button"
@@ -54,7 +63,7 @@ export function MonthTabs() {
           ›
         </button>
       </div>
-      <div className="flex shrink-0 gap-1.5">
+      <div className="month-scroll-fade no-scrollbar flex min-w-0 snap-x snap-mandatory gap-1.5 overflow-x-auto">
         {months.map((m) => {
           const params = new URLSearchParams(searchParams);
           params.set('mes', m);
@@ -62,8 +71,9 @@ export function MonthTabs() {
           return (
             <Link
               key={m}
+              ref={active ? activeRef : undefined}
               href={`${pathname}?${params.toString()}`}
-              className={`shrink-0 border border-divider px-3.5 py-1.5 font-heading text-xs tracking-[.1em] ${
+              className={`shrink-0 snap-center border border-divider px-3.5 py-1.5 font-heading text-xs tracking-[.1em] ${
                 active ? 'bg-accent text-bg' : 'bg-transparent text-text'
               }`}
             >
