@@ -1,24 +1,9 @@
 import { PrismaClient, type FixedItemRole } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import { DEFAULT_CATEGORIES } from '../src/categories/default-categories.js';
 import rawExpenses from './seed-data/budget-data.json' with { type: 'json' };
 
 const prisma = new PrismaClient();
-
-// Lista inicial do PRD §6.3 — editável pelo usuário no app depois de criada.
-const DEFAULT_CATEGORIES = [
-  'Moradia',
-  'Alimentação',
-  'Transporte',
-  'Saúde',
-  'Educação',
-  'Lazer',
-  'Compras/Pessoal',
-  'Assinaturas',
-  'Poupança/Investimento',
-  'Dívidas/Fatura',
-  'Família/Presentes',
-  'Outros',
-];
 
 // `budget-data.js` do design (Claude Design) veio em inglês — mapeia pras
 // categorias em pt-BR já seedadas acima (docs/PLANO_IMPLEMENTACAO.md §0.4 #4).

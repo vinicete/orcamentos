@@ -179,8 +179,10 @@ describe('Isolamento multiusuário (Fase 13.2)', () => {
     });
 
     it('ensure-month só cria pendências pros itens fixos do próprio usuário', async () => {
+      // B só tem os 2 itens fixos de rollup do bootstrap (Fase 13.3) — nada de A deve aparecer aqui.
+      const ownItems = await userB.agent.get('/fixed-items').expect(200);
       const res = await userB.agent.post('/expenses/ensure-month/2026-09').expect(200);
-      expect(res.body.created).toBe(0);
+      expect(res.body.created).toBe(ownItems.body.length);
     });
   });
 

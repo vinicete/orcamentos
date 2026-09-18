@@ -3,6 +3,7 @@ import type { ConfigService } from '@nestjs/config';
 import type { PrismaClient } from '@prisma/client';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
+import { bootstrapNewUser } from './bootstrap-new-user.js';
 
 export const BETTER_AUTH = Symbol('BETTER_AUTH');
 
@@ -16,6 +17,13 @@ export function createAuth(prisma: PrismaClient, config: ConfigService) {
     database: prismaAdapter(prisma, { provider: 'postgresql' }),
     emailAndPassword: { enabled: true },
     trustedOrigins: [config.get<string>('WEB_ORIGIN', 'http://localhost:3002')],
+    databaseHooks: {
+      user: {
+        create: {
+          after: (user) => bootstrapNewUser(prisma, user.id),
+        },
+      },
+    },
     advanced: {
       cookiePrefix: 'orcamento',
       // função em vez de 'uuid': com 'uuid' o adapter delega o id ao default do banco, que as tabelas não têm
