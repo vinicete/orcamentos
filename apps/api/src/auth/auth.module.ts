@@ -1,9 +1,12 @@
 import { Global, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { PrismaService } from '../prisma/prisma.service.js';
 import { UsersModule } from '../users/users.module.js';
 import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
+import { BETTER_AUTH, createAuth } from './better-auth.js';
 import { JwtAccessGuard } from './guards/jwt-access.guard.js';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard.js';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy.js';
@@ -16,7 +19,18 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy.js';
 @Module({
   imports: [UsersModule, PassportModule.register({}), JwtModule.register({})],
   controllers: [AuthController],
-  providers: [AuthService, JwtAccessStrategy, JwtRefreshStrategy, JwtAccessGuard, JwtRefreshGuard],
-  exports: [PassportModule, JwtAccessGuard, JwtRefreshGuard],
+  providers: [
+    AuthService,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
+    JwtAccessGuard,
+    JwtRefreshGuard,
+    {
+      provide: BETTER_AUTH,
+      inject: [PrismaService, ConfigService],
+      useFactory: createAuth,
+    },
+  ],
+  exports: [PassportModule, JwtAccessGuard, JwtRefreshGuard, BETTER_AUTH],
 })
 export class AuthModule {}

@@ -63,7 +63,7 @@ export class AuthController {
       secure,
       domain,
       path: '/',
-      maxAge: durationToMs(this.config.get<string>('JWT_ACCESS_EXPIRES_IN', '15m')),
+      maxAge: durationToMs(this.config.get<string>('JWT_ACCESS_EXPIRES_IN', '1d')),
     });
     res.cookie('refresh_token', tokens.refreshToken, {
       httpOnly: true,

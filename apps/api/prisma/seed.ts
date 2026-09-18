@@ -77,7 +77,7 @@ async function seedUserAndCategories() {
   const user = await prisma.user.upsert({
     where: { email },
     update: { passwordHash },
-    create: { email, passwordHash },
+    create: { email, passwordHash, name: email.split('@')[0], emailVerified: true },
   });
 
   for (const [index, name] of DEFAULT_CATEGORIES.entries()) {

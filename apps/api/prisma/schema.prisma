@@ -26,13 +26,64 @@ enum StatusLancamento {
 }
 
 model User {
-  id           String      @id @default(uuid())
-  email        String      @unique
-  passwordHash String
-  createdAt    DateTime    @default(now())
-  categories   Category[]
-  fixedItems   FixedItem[]
-  expenses     Expense[]
+  id            String      @id @default(uuid())
+  email         String      @unique
+  name          String
+  emailVerified Boolean     @default(false)
+  image         String?
+  // legado da auth JWT; sai na Fase 13.6
+  passwordHash  String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  categories    Category[]
+  fixedItems    FixedItem[]
+  expenses      Expense[]
+  sessions      Session[]
+  accounts      Account[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Account {
+  id                    String    @id
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId             String
+  providerId            String
+  password              String?
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
 }
 
 model Category {
