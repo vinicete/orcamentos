@@ -9,6 +9,7 @@ import { AuthService } from './auth.service.js';
 import { BETTER_AUTH, createAuth } from './better-auth.js';
 import { JwtAccessGuard } from './guards/jwt-access.guard.js';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard.js';
+import { SessionGuard } from './guards/session.guard.js';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy.js';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy.js';
 
@@ -25,12 +26,13 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy.js';
     JwtRefreshStrategy,
     JwtAccessGuard,
     JwtRefreshGuard,
+    SessionGuard,
     {
       provide: BETTER_AUTH,
       inject: [PrismaService, ConfigService],
       useFactory: createAuth,
     },
   ],
-  exports: [PassportModule, JwtAccessGuard, JwtRefreshGuard, BETTER_AUTH],
+  exports: [PassportModule, JwtAccessGuard, JwtRefreshGuard, SessionGuard, BETTER_AUTH],
 })
 export class AuthModule {}

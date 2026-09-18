@@ -13,14 +13,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
-import { JwtAccessGuard } from '../auth/guards/jwt-access.guard.js';
+import { SessionGuard } from '../auth/guards/session.guard.js';
 import type { JwtPayload } from '../auth/jwt-payload.js';
 import { CreateExpenseDto } from './dto/create-expense.dto.js';
 import { QueryExpensesDto } from './dto/query-expenses.dto.js';
 import { UpdateExpenseDto } from './dto/update-expense.dto.js';
 import { ExpensesService } from './expenses.service.js';
 
-@UseGuards(JwtAccessGuard)
+@UseGuards(SessionGuard)
 @Controller('expenses')
 export class ExpensesController {
   constructor(private readonly expenses: ExpensesService) {}
