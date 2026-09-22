@@ -11,7 +11,7 @@ pronta pra uso: categorias padrão + os dois itens fixos de rollup, sem passo ma
   fonte única entre o seed (usuário de teste + histórico) e o bootstrap de cadastro.
 - **`auth/bootstrap-new-user.ts`**: roda dentro de `databaseHooks.user.create.after`
   (`better-auth.ts`) — cria as 12 categorias e, na mesma transação, os dois itens fixos de rollup:
-  "Gastos Adicionais" (`ADDITIONAL_CEILING`) na categoria Outros, "Fatura mês passado`
+  "Gastos Adicionais" (`ADDITIONAL_CEILING`) na categoria Outros, "Fatura mês passado"
   (`CARD_INVOICE`) na categoria Dívidas/Fatura — mesmos nomes e categorias que o histórico seedado
   usa (`roleFor`/`CATEGORY_PT` em `seed.ts`), `defaultBudget: 0` (o usuário ajusta depois). Sem o
   item de teto, `computeSummary` devolveria `additionalCeiling: 0` pra sempre, e a barra de
