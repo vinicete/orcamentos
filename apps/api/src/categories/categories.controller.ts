@@ -12,13 +12,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
-import { JwtAccessGuard } from '../auth/guards/jwt-access.guard.js';
+import { SessionGuard } from '../auth/guards/session.guard.js';
 import type { JwtPayload } from '../auth/jwt-payload.js';
 import { CategoriesService } from './categories.service.js';
 import { CreateCategoryDto } from './dto/create-category.dto.js';
 import { UpdateCategoryDto } from './dto/update-category.dto.js';
 
-@UseGuards(JwtAccessGuard)
+@UseGuards(SessionGuard)
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categories: CategoriesService) {}

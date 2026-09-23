@@ -8,7 +8,6 @@ import type {
   Expense,
   ExpenseFilters,
   FixedItem,
-  PublicUser,
   TrendResponse,
   UpdateCategoryInput,
   UpdateExpenseInput,
@@ -93,20 +92,6 @@ export class ApiClient {
   }
   private del<T>(path: string) {
     return this.request<T>(path, { method: 'DELETE' });
-  }
-
-  // Auth
-  login(email: string, password: string) {
-    return this.post<PublicUser>('/auth/login', { email, password });
-  }
-  logout() {
-    return this.post<{ ok: boolean }>('/auth/logout');
-  }
-  refresh() {
-    return this.post<PublicUser>('/auth/refresh');
-  }
-  me() {
-    return this.get<PublicUser>('/auth/me');
   }
 
   // Categories

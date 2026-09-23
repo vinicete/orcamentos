@@ -12,13 +12,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
-import { JwtAccessGuard } from '../auth/guards/jwt-access.guard.js';
+import { SessionGuard } from '../auth/guards/session.guard.js';
 import type { JwtPayload } from '../auth/jwt-payload.js';
 import { CreateFixedItemDto } from './dto/create-fixed-item.dto.js';
 import { UpdateFixedItemDto } from './dto/update-fixed-item.dto.js';
 import { FixedItemsService } from './fixed-items.service.js';
 
-@UseGuards(JwtAccessGuard)
+@UseGuards(SessionGuard)
 @Controller('fixed-items')
 export class FixedItemsController {
   constructor(private readonly fixedItems: FixedItemsService) {}

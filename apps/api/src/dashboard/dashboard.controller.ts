@@ -1,6 +1,6 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
-import { JwtAccessGuard } from '../auth/guards/jwt-access.guard.js';
+import { SessionGuard } from '../auth/guards/session.guard.js';
 import type { JwtPayload } from '../auth/jwt-payload.js';
 import { DashboardService } from './dashboard.service.js';
 import { QuerySummaryDto } from './dto/query-summary.dto.js';
@@ -8,7 +8,7 @@ import { QueryTrendDto } from './dto/query-trend.dto.js';
 
 const DEFAULT_TREND_MONTHS = 12;
 
-@UseGuards(JwtAccessGuard)
+@UseGuards(SessionGuard)
 @Controller('dashboard')
 export class DashboardController {
   constructor(private readonly dashboard: DashboardService) {}

@@ -8,11 +8,6 @@ export type TipoLancamento = 'FIXO' | 'ADICIONAL' | 'CARTAO';
 export type StatusLancamento = 'PENDENTE' | 'REALIZADO';
 export type FixedItemRole = 'NORMAL' | 'ADDITIONAL_CEILING' | 'CARD_INVOICE';
 
-export interface PublicUser {
-  id: string;
-  email: string;
-}
-
 export interface Category {
   id: string;
   userId: string;
