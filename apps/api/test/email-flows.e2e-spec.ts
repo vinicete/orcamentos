@@ -66,6 +66,9 @@ describe('Fluxos de e-mail — verificação e reset de senha (Fase 13.4)', () =
 
     const user = await prisma.user.findUniqueOrThrow({ where: { id: userId } });
     expect(user.emailVerified).toBe(true);
+
+    // requireEmailVerification: true — cadastro não loga sozinho, login só funciona depois daqui.
+    await agent.post('/api/auth/sign-in/email').send({ email, password }).expect(200);
   });
 
   it('reset de senha: link funciona, revoga sessões antigas e o token não serve de novo', async () => {
@@ -87,7 +90,7 @@ describe('Fluxos de e-mail — verificação e reset de senha (Fase 13.4)', () =
       .send({ token, newPassword })
       .expect(200);
 
-    // sessão criada no cadastro deve ter sido revogada (revokeSessionsOnPasswordReset)
+    // sessão criada no login (pós-verificação) deve ter sido revogada (revokeSessionsOnPasswordReset)
     await agent.get('/categories').expect(401);
 
     // token já usado não serve de novo

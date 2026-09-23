@@ -7,6 +7,7 @@ import { AppModule } from '../src/app.module.js';
 import { DEFAULT_CATEGORIES } from '../src/categories/default-categories.js';
 import { PrismaService } from '../src/prisma/prisma.service.js';
 import { configureApp } from '../src/setup-app.js';
+import { signUpVerifiedUser } from './support/auth-flow.js';
 
 describe('Bootstrap de usuário novo (Fase 13.3)', () => {
   let app: INestApplication<App>;
@@ -26,13 +27,10 @@ describe('Bootstrap de usuário novo (Fase 13.3)', () => {
     await app.init();
     prisma = moduleFixture.get(PrismaService);
 
-    agent = request.agent(app.getHttpServer());
     const email = `bootstrap-${Date.now()}@teste.local`;
-    const res = await agent
-      .post('/api/auth/sign-up/email')
-      .send({ email, password: 'senha-forte-123', name: email })
-      .expect(200);
-    userId = res.body.user.id;
+    const user = await signUpVerifiedUser(app, email, 'senha-forte-123');
+    agent = user.agent;
+    userId = user.userId;
   });
 
   afterAll(async () => {

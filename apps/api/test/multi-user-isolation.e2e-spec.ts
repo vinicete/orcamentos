@@ -6,28 +6,14 @@ import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module.js';
 import { PrismaService } from '../src/prisma/prisma.service.js';
 import { configureApp } from '../src/setup-app.js';
+import { signUpVerifiedUser, type VerifiedUser } from './support/auth-flow.js';
 
-interface Session {
-  agent: ReturnType<typeof request.agent>;
-  userId: string;
-  email: string;
-}
-
-async function signUp(app: INestApplication<App>, email: string): Promise<Session> {
-  const agent = request.agent(app.getHttpServer());
-  const res = await agent
-    .post('/api/auth/sign-up/email')
-    .send({ email, password: 'senha-forte-123', name: email })
-    .expect(200);
-  return { agent, userId: res.body.user.id, email };
-}
-
-async function createCategory(session: Session, name: string): Promise<string> {
+async function createCategory(session: VerifiedUser, name: string): Promise<string> {
   const res = await session.agent.post('/categories').send({ name }).expect(201);
   return res.body.id;
 }
 
-async function createFixedItem(session: Session, categoryId: string): Promise<string> {
+async function createFixedItem(session: VerifiedUser, categoryId: string): Promise<string> {
   const res = await session.agent
     .post('/fixed-items')
     .send({ name: 'Aluguel', defaultBudget: 1000, categoryId })
@@ -35,7 +21,7 @@ async function createFixedItem(session: Session, categoryId: string): Promise<st
   return res.body.id;
 }
 
-async function createExpense(session: Session, categoryId: string): Promise<string> {
+async function createExpense(session: VerifiedUser, categoryId: string): Promise<string> {
   const res = await session.agent
     .post('/expenses')
     .send({
@@ -52,8 +38,8 @@ async function createExpense(session: Session, categoryId: string): Promise<stri
 describe('Isolamento multiusuário (Fase 13.2)', () => {
   let app: INestApplication<App>;
   let prisma: PrismaService;
-  let userA: Session;
-  let userB: Session;
+  let userA: VerifiedUser;
+  let userB: VerifiedUser;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -68,8 +54,9 @@ describe('Isolamento multiusuário (Fase 13.2)', () => {
     prisma = moduleFixture.get(PrismaService);
 
     const suffix = Date.now();
-    userA = await signUp(app, `isolamento-a-${suffix}@teste.local`);
-    userB = await signUp(app, `isolamento-b-${suffix}@teste.local`);
+    const password = 'senha-forte-123';
+    userA = await signUpVerifiedUser(app, `isolamento-a-${suffix}@teste.local`, password);
+    userB = await signUpVerifiedUser(app, `isolamento-b-${suffix}@teste.local`, password);
   });
 
   afterAll(async () => {

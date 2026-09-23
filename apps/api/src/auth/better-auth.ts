@@ -19,11 +19,11 @@ export function createAuth(prisma: PrismaClient, config: ConfigService) {
     database: prismaAdapter(prisma, { provider: 'postgresql' }),
     emailAndPassword: {
       enabled: true,
+      requireEmailVerification: true,
       sendResetPassword: ({ user, url }) =>
         sendEmail(user.email, 'Redefinir senha — Orçamento', resetPasswordEmailHtml(url)),
       revokeSessionsOnPasswordReset: true,
     },
-    // requireEmailVerification fica desligado até o Resend estar confirmado de ponta a ponta (Fase 13.4)
     emailVerification: {
       sendOnSignUp: true,
       sendVerificationEmail: ({ user, url }) =>

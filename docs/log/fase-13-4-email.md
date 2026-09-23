@@ -3,10 +3,10 @@
 Data: 2026-09-18
 
 Quarta fase do [PLANO_AUTH.md](../PLANO_AUTH.md). Verificação de e-mail e reset de senha ligados ao
-Better Auth via Resend. `requireEmailVerification` fica **desligado** por decisão explícita: liga só
-depois que a conta no Resend e o DNS (SPF/DKIM no registro.br) estiverem confirmados de ponta a
-ponta — até lá, ligar quebraria o login local (cadastro para de autenticar na hora até o e-mail ser
-confirmado). Isso é passo do usuário, fora do que dá pra automatizar aqui.
+Better Auth via Resend. Ficou em duas partes: `requireEmailVerification` entrou **desligado** em
+2026-09-18 (dependia do usuário criar a conta no Resend e confirmar o DNS) e foi **ligado** em
+2026-09-22, depois que o domínio apareceu como `verified` na API do Resend e um e-mail de teste
+real chegou na caixa de entrada.
 
 ## O que foi feito
 
@@ -15,8 +15,8 @@ confirmado). Isso é passo do usuário, fora do que dá pra automatizar aqui.
   dá pra testar o fluxo local sem conta no Resend, e falha de envio não derruba cadastro/reset (só
   loga o erro).
 - **`better-auth.ts`**: `emailAndPassword.sendResetPassword` + `revokeSessionsOnPasswordReset: true`;
-  `emailVerification.sendOnSignUp: true` + `sendVerificationEmail`. `requireEmailVerification` não
-  entrou (ver acima).
+  `emailVerification.sendOnSignUp: true` + `sendVerificationEmail`; `requireEmailVerification: true`
+  (ligado em 2026-09-22, ver "Fechamento" abaixo).
 - **`test/email-flows.e2e-spec.ts`**: como não há conta Resend ainda, o teste captura o link
   logado no console (mesmo caminho que um dev sem `RESEND_API_KEY` usa) e:
   - cadastro → link de verificação → `GET /api/auth/verify-email` confirma a conta (`emailVerified: true`);
@@ -30,23 +30,36 @@ confirmado). Isso é passo do usuário, fora do que dá pra automatizar aqui.
   Better Auth sempre inclui um `callbackURL` (default `/`) na URL do e-mail, e com ele presente o
   sucesso vira redirect. Só cai em JSON quando não há `callbackURL` na query.
 
-## Pendente (fora do que dá pra automatizar)
+## Fechamento (2026-09-22)
 
-1. Criar conta no Resend, verificar o domínio `orcamento.jeenyuhs.com.br`.
-2. Adicionar os registros SPF/DKIM no registro.br (mesmo lugar dos CNAMEs do deploy — atraso de
-   propagação esperado).
-3. Preencher `RESEND_API_KEY` no `.env` (local) e no Railway (produção, fase 13.6).
-4. Só depois disso testado de ponta a ponta (e-mail chegando numa caixa real): ligar
-   `requireEmailVerification: true`.
+- Usuário criou a conta no Resend, verificou o domínio e adicionou os registros SPF/DKIM no
+  registro.br — confirmado direto na API do Resend (`GET /domains` → `status: "verified"`), sem
+  esperar propagação.
+- `RESEND_API_KEY` preenchido no `apps/api/.env` (só local — Railway fica pra 13.6). E-mail de teste
+  disparado direto pela API do Resend pro usuário, chegou na caixa real.
+- `requireEmailVerification: true` ligado em `better-auth.ts`. Isso muda o cadastro: com a
+  verificação exigida, `POST /api/auth/sign-up/email` **não loga mais sozinho** (`token: null`,
+  sem cookie de sessão) — o fluxo real vira cadastro → confirmar e-mail → login.
+- Os 3 specs e2e que assumiam sessão automática no cadastro (`multi-user-isolation`,
+  `bootstrap-new-user`, `email-flows`) foram ajustados pra passar pelo fluxo de verdade. Extraí o
+  helper `test/support/auth-flow.ts` (`signUpVerifiedUser`) — cadastra, captura o link de
+  verificação do log (`console.warn`, já que testes não devem bater no Resend de verdade), confirma
+  a conta e faz login — usado pelos dois primeiros; `email-flows` mantém os passos explícitos
+  (é o que está testando) mas agora também loga in antes do teste de reset de senha, senão a
+  asserção de "sessão revogada" seria verdadeira mesmo sem revogação nenhuma (nunca teria sessão).
+- **`vitest.config.e2e.ts`**: `env: { RESEND_API_KEY: '' }` força o fallback de log em teste,
+  mesmo com a chave real no `.env` — sem isso, todo teste que cadastra usuário dispararia e-mail de
+  verdade pro Resend (pra domínios fake tipo `@teste.local`) e o helper de captura pararia de achar
+  o link no console.
 
 ## Verificação
 
-- `pnpm --filter @orcamento/api test:e2e`: 18/18 (16 anteriores + 2 novos de e-mail).
-- `pnpm --filter @orcamento/api test`, `pnpm lint`, `pnpm format:check`, `pnpm --filter @orcamento/api build`: limpos (fora o aviso antigo do log da fase 5).
+- `pnpm --filter @orcamento/api test:e2e`: 18/18, agora com `requireEmailVerification: true` de
+  verdade (cadastro → verificação → login em cada teste que precisa de sessão).
+- `pnpm --filter @orcamento/api test`, `pnpm lint`, `pnpm format:check`, `pnpm --filter @orcamento/api build`: limpos.
+- Domínio `verified` na API do Resend; e-mail de teste entregue numa caixa real.
 
 ## Próxima fase
 
 13.5 — frontend: `authClient`, telas de cadastro/login/esqueci-senha/verificar-email,
-`proxy.ts` no cookie novo. Depende do `requireEmailVerification` só entrar quando o passo pendente
-acima estiver resolvido — as telas de verificação/reset não têm como ser testadas de verdade sem
-e-mail funcionando (mesma ordem do §5 do plano).
+`proxy.ts` no cookie novo.

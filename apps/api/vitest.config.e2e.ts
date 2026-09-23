@@ -7,5 +7,6 @@ export default defineConfig({
     globals: true,
     root: './',
     include: ['**/*.e2e-spec.ts'],
+    env: { RESEND_API_KEY: '' },
   },
 });
