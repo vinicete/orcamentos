@@ -8,13 +8,11 @@ import { DashboardModule } from './dashboard/dashboard.module.js';
 import { ExpensesModule } from './expenses/expenses.module.js';
 import { FixedItemsModule } from './fixed-items/fixed-items.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
-import { UsersModule } from './users/users.module.js';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
-    UsersModule,
     AuthModule,
     CategoriesModule,
     FixedItemsModule,

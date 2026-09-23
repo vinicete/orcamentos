@@ -1,5 +1,6 @@
 import { PrismaClient, type FixedItemRole } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import { randomUUID } from 'node:crypto';
+import { hashPassword } from 'better-auth/crypto';
 import { DEFAULT_CATEGORIES } from '../src/categories/default-categories.js';
 import rawExpenses from './seed-data/budget-data.json' with { type: 'json' };
 
@@ -57,13 +58,29 @@ async function seedUserAndCategories() {
     throw new Error('Defina SEED_USER_EMAIL e SEED_USER_PASSWORD no .env antes de rodar o seed.');
   }
 
-  const passwordHash = await bcrypt.hash(password, 10);
-
   const user = await prisma.user.upsert({
     where: { email },
-    update: { passwordHash },
-    create: { email, passwordHash, name: email.split('@')[0], emailVerified: true },
+    update: {},
+    create: { email, name: email.split('@')[0], emailVerified: true },
   });
+
+  const passwordHash = await hashPassword(password);
+  const credential = await prisma.account.findFirst({
+    where: { userId: user.id, providerId: 'credential' },
+  });
+  if (credential) {
+    await prisma.account.update({ where: { id: credential.id }, data: { password: passwordHash } });
+  } else {
+    await prisma.account.create({
+      data: {
+        id: randomUUID(),
+        userId: user.id,
+        accountId: user.id,
+        providerId: 'credential',
+        password: passwordHash,
+      },
+    });
+  }
 
   for (const [index, name] of DEFAULT_CATEGORIES.entries()) {
     await prisma.category.upsert({

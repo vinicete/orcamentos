@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
 import { SessionGuard } from '../auth/guards/session.guard.js';
-import type { JwtPayload } from '../auth/jwt-payload.js';
+import type { AuthUser } from '../auth/auth-user.js';
 import { CreateFixedItemDto } from './dto/create-fixed-item.dto.js';
 import { UpdateFixedItemDto } from './dto/update-fixed-item.dto.js';
 import { FixedItemsService } from './fixed-items.service.js';
@@ -24,18 +24,18 @@ export class FixedItemsController {
   constructor(private readonly fixedItems: FixedItemsService) {}
 
   @Get()
-  findAll(@CurrentUser() user: JwtPayload) {
+  findAll(@CurrentUser() user: AuthUser) {
     return this.fixedItems.findAll(user.sub);
   }
 
   @Post()
-  create(@CurrentUser() user: JwtPayload, @Body() dto: CreateFixedItemDto) {
+  create(@CurrentUser() user: AuthUser, @Body() dto: CreateFixedItemDto) {
     return this.fixedItems.create(user.sub, dto);
   }
 
   @Patch(':id')
   update(
-    @CurrentUser() user: JwtPayload,
+    @CurrentUser() user: AuthUser,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateFixedItemDto,
   ) {
@@ -44,7 +44,7 @@ export class FixedItemsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@CurrentUser() user: JwtPayload, @Param('id', ParseUUIDPipe) id: string) {
+  remove(@CurrentUser() user: AuthUser, @Param('id', ParseUUIDPipe) id: string) {
     return this.fixedItems.remove(user.sub, id);
   }
 }

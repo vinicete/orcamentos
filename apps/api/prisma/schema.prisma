@@ -31,8 +31,6 @@ model User {
   name          String
   emailVerified Boolean     @default(false)
   image         String?
-  // legado da auth JWT; sai na Fase 13.6
-  passwordHash  String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   categories    Category[]

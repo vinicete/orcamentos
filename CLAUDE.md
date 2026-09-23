@@ -27,6 +27,7 @@ pnpm --filter @orcamento/api build
 pnpm --filter @orcamento/web build
 
 pnpm --filter @orcamento/api test                                                   # vitest
+pnpm --filter @orcamento/api test:e2e                                               # needs the local Postgres up; no real e-mail is sent
 pnpm --filter @orcamento/api exec vitest run src/dashboard/dashboard.aggregations.spec.ts
 pnpm --filter @orcamento/api exec vitest run -t "nome do teste"
 ```
@@ -40,7 +41,7 @@ pnpm --filter @orcamento/api exec vitest run -t "nome do teste"
 - `Expense.type`: `FIXO` (requires `budget`), `ADICIONAL` (forbids `budget`), `CARTAO` (optional `budget`). `fixedItemId` only valid for `FIXO`. Enforced in `ExpensesService.assertTypeRules`.
 - `FixedItem` is the catalog of recurring monthly items. `POST /expenses/ensure-month/:yyyyMm` idempotently creates a `PENDENTE` expense (amount 0) per active item; PATCHing a pending expense's amount > 0 flips it to `REALIZADO`.
 - `FixedItem.role`: `ADDITIONAL_CEILING` (monthly cap for ADICIONAL spending) and `CARD_INVOICE` (last month's card bill) are rollup rows. Dashboard math depends on role, never on the item's name.
-- All data is scoped by `userId` from the auth guard; every service query must filter by it.
+- All data is scoped by `userId` from `SessionGuard` (Better Auth session, exposed as `@CurrentUser()`); every service query must filter by it. `test/multi-user-isolation.e2e-spec.ts` proves it with two users.
 
 ### Dashboard math (`apps/api/src/dashboard/dashboard.aggregations.ts`)
 
@@ -69,4 +70,4 @@ Pure functions, unit-tested without a DB; `dashboard.service.ts` only fetches. T
 
 - API: Railway, built from `apps/api/Dockerfile` with the repo root as build context; the container runs `prisma migrate deploy` before starting. Railway's "Custom Start Command" must stay empty so the Dockerfile `CMD` is used.
 - Web: Vercel, root directory `apps/web`. `NEXT_PUBLIC_API_URL` is inlined at build time, so changing it requires a redeploy.
-- Domains: web `orcamento.jeenyuhs.com.br`, API `api.orcamento.jeenyuhs.com.br`. Auth cookies are set on `.orcamento.jeenyuhs.com.br` in production so both subdomains see them; logout must clear with the same `domain`.
+- Domains: web `orcamento.jeenyuhs.com.br`, API `api.orcamento.jeenyuhs.com.br`. Auth is Better Auth (`apps/api/src/auth`, mounted at `/api/auth`); its session cookie (`orcamento.session_token`, `__Secure-` prefixed on HTTPS) is set on `.orcamento.jeenyuhs.com.br` in production via `AUTH_COOKIE_DOMAIN` so both subdomains see it. API env: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `AUTH_COOKIE_DOMAIN`, `WEB_ORIGIN` (must match the site exactly: it validates e-mail callback URLs), `RESEND_API_KEY`, `EMAIL_FROM`.
