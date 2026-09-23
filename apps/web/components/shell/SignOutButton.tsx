@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { api } from '@/lib/api-client';
+import { authClient } from '@/lib/auth-client';
 
 export function SignOutButton() {
   const router = useRouter();
@@ -12,7 +12,7 @@ export function SignOutButton() {
   async function onClick() {
     setLoading(true);
     try {
-      await api.logout();
+      await authClient.signOut();
     } finally {
       router.push('/login');
       router.refresh();
