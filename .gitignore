@@ -17,6 +17,7 @@ dist/
 .env
 .env.*
 !.env.example
+!.env.prod.example
 
 # Prisma (migrations/ é versionado de propósito — não ignorar)
 apps/api/prisma/*.db

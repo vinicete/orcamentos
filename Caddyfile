@@ -1,0 +1,3 @@
+api.orcamento.jeenyuhs.com.br {
+	reverse_proxy api:3001
+}
