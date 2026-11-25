@@ -2,6 +2,7 @@ import { MobileNav } from './MobileNav';
 import { MonthTabs } from './MonthTabs';
 import { NavLinks } from './NavLinks';
 import { SignOutButton } from './SignOutButton';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Header() {
   return (
@@ -11,7 +12,8 @@ export function Header() {
           ORÇAMENTO<span className="text-accent">.</span>
         </div>
         <NavLinks />
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <SignOutButton />
         </div>
         <MobileNav />

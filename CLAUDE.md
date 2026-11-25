@@ -15,6 +15,8 @@ Personal budget app (pt-BR UI). pnpm monorepo: `apps/api` (NestJS + Prisma + Pos
 
 ```bash
 pnpm install
+pnpm dev                                      # Postgres (docker) + pending migrations + API :3001 + web :3002
+
 docker compose up -d                          # local Postgres (apps/api/.env points to port 5434)
 pnpm --filter @orcamento/api prisma:migrate   # prisma migrate dev
 pnpm --filter @orcamento/api prisma:seed      # user + default categories + historical data
@@ -61,7 +63,8 @@ Pure functions, unit-tested without a DB; `dashboard.service.ts` only fetches. T
 - `packages/shared` is consumed as raw TS via `transpilePackages` (bundler resolution): no `.js` suffixes there.
 - Selected month lives in the URL (`?mes=YYYY-MM`) and is shared across views. `proxy.ts` gates protected routes by auth cookie presence and adds a missing `?mes=`.
 - Data fetching is client-side through the `api` singleton (`lib/api-client.ts`, `credentials: 'include'`), usually with an `ignore` flag in `useEffect` cleanup. The `react-hooks/set-state-in-effect` lint rule is enforced: set state only in async callbacks, or adjust state during render.
-- Design tokens are CSS-first in `app/globals.css` (`@theme`); radius is 0 everywhere. No inline styles except runtime-computed values (bar widths/heights, category colors). Category color comes from `Category.order` via `getCategoryColor`.
+- Design tokens are CSS-first in `app/globals.css` (`@theme`); radius is 0 everywhere. No inline styles except runtime-computed values (bar widths/heights, category colors). Category color comes from `Category.order` via `getCategoryColor` (returns a `var(--color-cat-N)`).
+- Dark mode: `.dark` on `<html>` (set by the inline script in `app/layout.tsx`, toggled by `ThemeToggle`) redefines the tokens in `globals.css`, so components need no `dark:` variants as long as they use tokens. `brand`/`on-brand` and `scrim` stay the same in both themes.
 - shadcn/ui is used only for primitives (`Sheet`, `Dialog`); `components/ui/button.tsx` is our own component, don't let `shadcn add` overwrite it. The shadcn `Sheet` applies `gap-4` between children; override with `gap-0` when spacing matters.
 - Confirmations/alerts go through `useConfirmDialog()` (`lib/confirm-context.tsx`), not `window.confirm`.
 - Inputs use ≥16px font on mobile (global rule in `globals.css`) to avoid browser zoom-on-focus.

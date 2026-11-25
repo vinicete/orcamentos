@@ -17,9 +17,10 @@ export const CATEGORY_COLORS = [
   '#d7d3d3', // Outros         (neutral-300)
 ] as const;
 
-/** Cor da categoria pela posição dela na lista do usuário — cicla se houver mais de 12. */
+/** Cor da categoria pela posição dela na lista do usuário — cicla se houver mais de 12.
+ * Devolve a variável CSS `--color-cat-N` (que muda no tema escuro) com o hex como fallback. */
 export function getCategoryColor(order: number): string {
   const index =
     ((order % CATEGORY_COLORS.length) + CATEGORY_COLORS.length) % CATEGORY_COLORS.length;
-  return CATEGORY_COLORS[index];
+  return `var(--color-cat-${index}, ${CATEGORY_COLORS[index]})`;
 }

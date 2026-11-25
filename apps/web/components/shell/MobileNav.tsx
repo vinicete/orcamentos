@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { NAV_PRIMARY, NAV_SECONDARY } from './nav-items';
 import { SignOutButton } from './SignOutButton';
+import { ThemeToggle } from './ThemeToggle';
 
 const ALL_ITEMS = [...NAV_PRIMARY, ...NAV_SECONDARY];
 
@@ -54,8 +55,9 @@ export function MobileNav() {
               );
             })}
           </nav>
-          <div className="mt-4 border-t border-divider pt-4">
+          <div className="mt-4 flex items-center justify-between border-t border-divider pt-4">
             <SignOutButton />
+            <ThemeToggle />
           </div>
         </SheetContent>
       </Sheet>

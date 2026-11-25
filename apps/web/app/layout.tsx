@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Archivo } from 'next/font/google';
 import { ConfirmProvider } from '@/lib/confirm-context';
+import { THEME_INIT_SCRIPT } from '@/lib/theme';
 import './globals.css';
 
 const archivo = Archivo({
@@ -22,7 +23,14 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${archivo.variable} h-full antialiased overflow-x-hidden`}>
+    <html
+      lang="pt-BR"
+      className={`${archivo.variable} h-full antialiased overflow-x-hidden`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col overflow-x-hidden bg-bg text-text font-sans">
         <ConfirmProvider>{children}</ConfirmProvider>
       </body>

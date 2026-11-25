@@ -11,9 +11,8 @@
  * `--radius-*`/`--shadow-*` abaixo gera as utilities correspondentes
  * (bg-accent, text-neutral-700, rounded, shadow-md, ...).
  *
- * Dark mode fica pra Fase 11 (docs/PLANO_IMPLEMENTACAO.md §4.4) — por ora só
- * a paleta clara existe. `@custom-variant dark` acima já veio do shadcn init
- * e é exatamente a estratégia (`darkMode: 'class'`) que a Fase 11 vai usar.
+ * O tema escuro redefine estes mesmos tokens em `.dark` (classe no <html>,
+ * aplicada pelo script inline do app/layout.tsx).
  */
 @theme {
   --color-bg: #f3f2f2;
@@ -42,6 +41,11 @@
   --color-neutral-800: #444141;
   --color-neutral-900: #2d2b2b;
 
+  /* Fixos nos dois temas: painel do login e fundo de modal. */
+  --color-brand: #ec3013;
+  --color-on-brand: #f3f2f2;
+  --color-scrim: #2d2b2b;
+
   --font-sans: var(--font-archivo), system-ui, sans-serif;
   --font-weight-heading: 800;
 
@@ -58,6 +62,73 @@
   --shadow-sm: 0 1px 2px rgb(45 43 43 / 0.14);
   --shadow-md: 0 3px 10px rgb(45 43 43 / 0.16);
   --shadow-lg: 0 12px 32px rgb(45 43 43 / 0.22);
+}
+
+/* Fora do @theme: só são lidas via style inline, e o Tailwind descarta tokens sem utility. */
+:root {
+  color-scheme: light;
+
+  --color-cat-0: #4d170e;
+  --color-cat-1: #ec3013;
+  --color-cat-2: #7c1405;
+  --color-cat-3: #ae1800;
+  --color-cat-4: #dd2b0f;
+  --color-cat-5: #ff563c;
+  --color-cat-6: #ff9783;
+  --color-cat-7: #ffc4b8;
+  --color-cat-8: #605d5d;
+  --color-cat-9: #2d2b2b;
+  --color-cat-10: #9b9797;
+  --color-cat-11: #d7d3d3;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --color-bg: #171515;
+  --color-surface: #221f1e;
+  --color-text: #efecec;
+  --color-divider: color-mix(in srgb, #efecec 32%, transparent);
+
+  --color-accent: #ff563c;
+  --color-accent-100: #2e1712;
+  --color-accent-200: #3a1a14;
+  --color-accent-300: #7c1405;
+  --color-accent-400: #ae1800;
+  --color-accent-500: #dd2b0f;
+  --color-accent-600: #ff6d55;
+  --color-accent-700: #ff9783;
+  --color-accent-800: #ffc4b8;
+  --color-accent-900: #ffe0d9;
+
+  --color-neutral-100: #1d1b1b;
+  --color-neutral-200: #36312f;
+  --color-neutral-300: #444141;
+  --color-neutral-400: #605d5d;
+  --color-neutral-500: #7d7979;
+  --color-neutral-600: #9b9797;
+  --color-neutral-700: #aaa5a5;
+  --color-neutral-800: #d7d3d3;
+  --color-neutral-900: #eae7e7;
+
+  --color-scrim: #000000;
+
+  --color-cat-0: #ffe0d9;
+  --color-cat-1: #ff563c;
+  --color-cat-2: #ffc4b8;
+  --color-cat-3: #ec3013;
+  --color-cat-4: #ff7a63;
+  --color-cat-5: #dd2b0f;
+  --color-cat-6: #ff9783;
+  --color-cat-7: #ae1800;
+  --color-cat-8: #bab6b6;
+  --color-cat-9: #eae7e7;
+  --color-cat-10: #7d7979;
+  --color-cat-11: #605d5d;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 3px 10px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.55);
 }
 
 body {

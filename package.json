@@ -6,6 +6,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "dev": "docker compose up -d --wait && pnpm --filter @orcamento/api exec prisma migrate deploy && pnpm --parallel --filter @orcamento/api --filter @orcamento/web dev",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

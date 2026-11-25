@@ -12,20 +12,20 @@ export function AuthShell({
 }) {
   return (
     <div className="grid min-h-screen grid-cols-1 md:grid-cols-[1.1fr_1fr]">
-      <div className="flex min-h-55 flex-col justify-between bg-accent px-10 py-12 text-bg">
+      <div className="flex min-h-55 flex-col justify-between bg-brand px-10 py-12 text-on-brand">
         <div className="text-[13px] tracking-[.14em] uppercase">Orçamento pessoal</div>
         <div>
           <h1 className="mb-4 font-heading text-[40px] leading-[0.95] tracking-[-.03em] md:text-[56px]">
-            UM SÓ LIVRO.
+            TODO GASTO
             <br />
-            TODO MÊS.
+            CONTA.
           </h1>
           <p className="max-w-[34ch] text-[15px] opacity-90">
-            Gastos fixos, adicionais e de cartão numa base só — o mês é só um filtro.
+            Do aluguel ao cafezinho: fixos, adicionais e cartão no mesmo lugar.
           </p>
         </div>
         <div className="text-[11px] tracking-[.1em] uppercase opacity-75">
-          Controle de orçamento pessoal
+          Fixo · Adicional · Cartão
         </div>
       </div>
 
