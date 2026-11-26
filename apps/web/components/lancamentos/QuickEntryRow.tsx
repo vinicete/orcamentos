@@ -16,14 +16,9 @@ export function QuickEntryRow({ draft: d }: { draft: Draft }) {
 
   return (
     <div className="mb-6 border-2 border-text p-4">
-      <div className="mb-3 flex items-baseline gap-3">
-        <h6 className="font-heading text-[13px] tracking-[.08em] text-accent uppercase">
-          Novo lançamento
-        </h6>
-        <span className="text-[11px] tracking-[.08em] text-neutral-700">
-          Escolha o tipo, preencha e aperte Enter.
-        </span>
-      </div>
+      <h6 className="mb-3 font-heading text-[13px] tracking-[.08em] text-accent uppercase">
+        Novo lançamento
+      </h6>
 
       <TypeSegmented
         value={draft.type}

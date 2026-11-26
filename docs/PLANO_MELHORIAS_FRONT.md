@@ -72,8 +72,8 @@ Feita em 2026-11-26, log em [fase-14-3-textos.md](log/fase-14-3-textos.md).
 
 - `AuthShell`: hero escolhido em §1.1; rodapé virou "Fixo · Adicional · Cartão".
 - `app/layout.tsx`: `metadata.description` igual ao subtítulo do hero.
-- Formulário: placeholder "ex.: mercado"; "ADD ↵" → "LANÇAR ↵"; dica → "Escolha o tipo, preencha e
-  aperte Enter."; "Orçado (opc.)" → "Orçado (opcional)"; dicas e erro do fixo reescritos.
+- Formulário: placeholder "ex.: mercado"; "ADD ↵" → "LANÇAR ↵"; dica do topo removida;
+  "Orçado (opc.)" → "Orçado (opcional)"; dicas e erro do fixo reescritos.
 - "item fixo" → "recorrente" em toda a UI (mesmo nome da tela no menu).
 - Menu "Dashboard" → "Resumo" (a rota continua `/dashboard`).
 - Títulos: "Gasto × orçado", "Cartão no mês", "A pagar", "Fixos · orçado × gasto", "Diferença",
