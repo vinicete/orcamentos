@@ -66,20 +66,20 @@ export function CategoryRow({
             autoFocus
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="min-h-9 flex-1 border border-divider bg-surface px-2 text-sm text-text"
+            className="min-h-11 md:min-h-10 flex-1 border border-divider bg-surface px-2 text-sm text-text"
           />
           <button
             type="button"
             onClick={save}
             disabled={saving}
-            className="min-h-9 cursor-pointer bg-accent px-3 text-xs font-heading font-bold text-bg disabled:cursor-not-allowed disabled:opacity-60"
+            className="min-h-11 md:min-h-10 cursor-pointer bg-accent px-3 text-xs font-heading font-bold text-bg disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {saving ? '...' : 'Salvar'}
+            {saving ? 'Salvando…' : 'Salvar'}
           </button>
           <button
             type="button"
             onClick={() => setEditing(false)}
-            className="min-h-9 cursor-pointer px-2 text-xs text-neutral-700"
+            className="min-h-11 md:min-h-10 cursor-pointer px-2 text-xs text-neutral-700"
           >
             Cancelar
           </button>

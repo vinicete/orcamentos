@@ -1,6 +1,6 @@
 export const NAV_PRIMARY = [
   { href: '/lancamentos', label: 'Lançamentos' },
-  { href: '/dashboard', label: 'Dashboard' },
+  { href: '/dashboard', label: 'Resumo' },
   { href: '/tendencias', label: 'Tendências' },
 ];
 

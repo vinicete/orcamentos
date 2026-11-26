@@ -26,7 +26,7 @@ export function MobileNav() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Abrir menu"
-        className="flex size-9 shrink-0 cursor-pointer items-center justify-center text-text md:hidden"
+        className="flex size-11 md:size-10 shrink-0 cursor-pointer items-center justify-center text-text md:hidden"
       >
         <Menu className="size-5" />
       </button>
@@ -46,7 +46,7 @@ export function MobileNav() {
                   key={item.href}
                   href={qs ? `${item.href}?${qs}` : item.href}
                   onClick={() => setOpen(false)}
-                  className={`px-3 py-3 text-sm font-heading tracking-[.06em] uppercase ${
+                  className={`px-3 py-3 text-sm font-heading tracking-[.08em] uppercase ${
                     active ? 'bg-accent text-bg' : 'text-text hover:bg-surface'
                   }`}
                 >

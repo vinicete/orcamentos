@@ -134,6 +134,7 @@
 body {
   background: var(--color-bg);
   color: var(--color-text);
+  font-variant-numeric: tabular-nums;
 }
 
 :focus-visible {

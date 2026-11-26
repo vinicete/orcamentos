@@ -45,7 +45,7 @@ export function NewCategoryForm({ onCreated }: { onCreated: () => void }) {
           className="flex-1"
         />
         <Button type="button" onClick={submit} disabled={saving}>
-          {saving ? '...' : 'Adicionar'}
+          {saving ? 'Adicionando…' : 'Adicionar'}
         </Button>
       </div>
       {error && <p className="mt-1 text-[11px] text-accent-700">{error}</p>}

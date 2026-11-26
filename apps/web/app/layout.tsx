@@ -12,7 +12,7 @@ const archivo = Archivo({
 
 export const metadata: Metadata = {
   title: 'Orçamento',
-  description: 'Controle de orçamento pessoal — fixo, adicional e cartão numa base só.',
+  description: 'Do aluguel ao cafezinho: fixos, adicionais e cartão no mesmo lugar.',
 };
 
 export const viewport: Viewport = {

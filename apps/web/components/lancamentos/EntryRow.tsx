@@ -106,18 +106,18 @@ export function EntryRow({
             type="date"
             value={form.date}
             onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-            className="min-h-9 w-32 border border-divider bg-surface px-2 text-xs text-text"
+            className="min-h-11 md:min-h-10 w-32 border border-divider bg-surface px-2 text-xs text-text"
           />
           <input
             autoFocus
             value={form.description}
             onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-            className="min-h-9 min-w-32 flex-1 border border-divider bg-surface px-2 text-sm text-text"
+            className="min-h-11 md:min-h-10 min-w-32 flex-1 border border-divider bg-surface px-2 text-sm text-text"
           />
           <select
             value={form.categoryId}
             onChange={(e) => setForm((f) => ({ ...f, categoryId: e.target.value }))}
-            className="min-h-9 border border-divider bg-surface px-2 text-sm text-text"
+            className="min-h-11 md:min-h-10 border border-divider bg-surface px-2 text-sm text-text"
           >
             {categories.map((c) => (
               <option key={c.id} value={c.id}>
@@ -130,27 +130,27 @@ export function EntryRow({
               value={form.budget}
               onChange={(e) => setForm((f) => ({ ...f, budget: e.target.value }))}
               placeholder="orçado"
-              className="min-h-9 w-24 border border-divider bg-surface px-2 text-right text-sm text-text"
+              className="min-h-11 md:min-h-10 w-24 border border-divider bg-surface px-2 text-right text-sm text-text"
             />
           )}
           <input
             value={form.amount}
             onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))}
             placeholder="0,00"
-            className="min-h-9 w-24 border border-divider bg-surface px-2 text-right text-sm font-bold text-text"
+            className="min-h-11 md:min-h-10 w-24 border border-divider bg-surface px-2 text-right text-sm font-bold text-text"
           />
           <button
             type="button"
             onClick={save}
             disabled={saving}
-            className="min-h-9 cursor-pointer bg-accent px-3 text-xs font-heading font-bold text-bg disabled:cursor-not-allowed disabled:opacity-60"
+            className="min-h-11 md:min-h-10 cursor-pointer bg-accent px-3 text-xs font-heading font-bold text-bg disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {saving ? '...' : 'Salvar'}
+            {saving ? 'Salvando…' : 'Salvar'}
           </button>
           <button
             type="button"
             onClick={() => setEditing(false)}
-            className="min-h-9 cursor-pointer px-2 text-xs text-neutral-700"
+            className="min-h-11 md:min-h-10 cursor-pointer px-2 text-xs text-neutral-700"
           >
             Cancelar
           </button>
@@ -179,7 +179,7 @@ export function EntryRow({
       <span className="hidden shrink-0 text-xs text-neutral-700 sm:block">{category?.name}</span>
       {isPending ? (
         <span className="w-24 shrink-0 text-right text-xs text-neutral-700 uppercase">
-          — <span className="block text-[9px] tracking-[.06em]">pendente</span>
+          — <span className="block text-[11px] tracking-[.08em]">pendente</span>
         </span>
       ) : (
         <span className="w-24 shrink-0 text-right font-bold">

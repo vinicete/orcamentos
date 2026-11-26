@@ -13,7 +13,7 @@ export function AuthShell({
   return (
     <div className="grid min-h-screen grid-cols-1 md:grid-cols-[1.1fr_1fr]">
       <div className="flex min-h-55 flex-col justify-between bg-brand px-10 py-12 text-on-brand">
-        <div className="text-[13px] tracking-[.14em] uppercase">Orçamento pessoal</div>
+        <div className="text-[13px] tracking-[.1em] uppercase">Orçamento pessoal</div>
         <div>
           <h1 className="mb-4 font-heading text-[40px] leading-[0.95] tracking-[-.03em] md:text-[56px]">
             TODO GASTO

@@ -55,7 +55,7 @@ export function StackedMonthChart({
               </div>
               {m.total > 0 && (
                 <span
-                  className="absolute inset-x-0 text-center text-[9px] font-semibold whitespace-nowrap text-neutral-700"
+                  className="absolute inset-x-0 text-center text-[10px] md:text-[11px] font-semibold whitespace-nowrap text-neutral-700"
                   style={{ bottom: `${barHeight + 4}px` }}
                 >
                   {formatCurrencyShort(m.total)}
@@ -63,7 +63,7 @@ export function StackedMonthChart({
               )}
             </div>
             <span
-              className={`font-heading text-[10px] tracking-[.06em] uppercase ${
+              className={`font-heading text-[11px] tracking-[.08em] uppercase ${
                 active ? 'text-accent' : 'text-neutral-700'
               }`}
             >

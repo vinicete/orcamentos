@@ -58,7 +58,7 @@ export class CategoriesService {
     } catch (err) {
       if (isForeignKeyConstraintViolation(err)) {
         throw new ConflictException(
-          'Categoria em uso por lançamentos ou itens fixos — não pode ser removida.',
+          'Esta categoria está em uso por lançamentos ou recorrentes e não pode ser excluída.',
         );
       }
       throw err;

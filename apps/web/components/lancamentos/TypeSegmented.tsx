@@ -22,7 +22,7 @@ export function TypeSegmented({
           key={t.value}
           type="button"
           onClick={() => onChange(t.value)}
-          className={`flex-1 border-r border-divider px-4 py-2 text-xs font-heading tracking-[.06em] whitespace-nowrap uppercase last:border-r-0 ${
+          className={`flex-1 border-r border-divider px-4 py-2 text-xs font-heading tracking-[.08em] whitespace-nowrap uppercase last:border-r-0 ${
             value === t.value ? 'bg-accent text-bg' : 'bg-transparent text-text'
           }`}
         >

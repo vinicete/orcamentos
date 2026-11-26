@@ -110,9 +110,7 @@ export function FixedItemRow({
   }
 
   if (editing) {
-    // Papel de teto/fatura é usado como singleton nos cálculos do dashboard (§0.3) — a API não
-    // impede duplicar, então avisamos aqui pra evitar o usuário criar um segundo sem perceber
-    // que só o primeiro entraria na conta.
+    // Teto e fatura são únicos nos cálculos do resumo; a API não impede duplicar.
     const showRoleWarning =
       (form.role === 'ADDITIONAL_CEILING' && hasCeiling && item.role !== 'ADDITIONAL_CEILING') ||
       (form.role === 'CARD_INVOICE' && hasCardInvoice && item.role !== 'CARD_INVOICE');
@@ -124,12 +122,12 @@ export function FixedItemRow({
             autoFocus
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-            className="min-h-9 min-w-32 flex-1 border border-divider bg-surface px-2 text-sm text-text"
+            className="min-h-11 md:min-h-10 min-w-32 flex-1 border border-divider bg-surface px-2 text-sm text-text"
           />
           <select
             value={form.categoryId}
             onChange={(e) => setForm((f) => ({ ...f, categoryId: e.target.value }))}
-            className="min-h-9 border border-divider bg-surface px-2 text-sm text-text"
+            className="min-h-11 md:min-h-10 border border-divider bg-surface px-2 text-sm text-text"
           >
             <option value="">Sem categoria</option>
             {categories.map((c) => (
@@ -142,12 +140,12 @@ export function FixedItemRow({
             value={form.budget}
             onChange={(e) => setForm((f) => ({ ...f, budget: e.target.value }))}
             placeholder="0,00"
-            className="min-h-9 w-24 border border-divider bg-surface px-2 text-right text-sm font-bold text-text"
+            className="min-h-11 md:min-h-10 w-24 border border-divider bg-surface px-2 text-right text-sm font-bold text-text"
           />
           <select
             value={form.role}
             onChange={(e) => setForm((f) => ({ ...f, role: e.target.value as FixedItemRole }))}
-            className="min-h-9 border border-divider bg-surface px-2 text-sm text-text"
+            className="min-h-11 md:min-h-10 border border-divider bg-surface px-2 text-sm text-text"
           >
             <option value="NORMAL">Normal</option>
             <option value="ADDITIONAL_CEILING">Teto de adicionais</option>
@@ -157,21 +155,22 @@ export function FixedItemRow({
             type="button"
             onClick={save}
             disabled={saving}
-            className="min-h-9 cursor-pointer bg-accent px-3 text-xs font-heading font-bold text-bg disabled:cursor-not-allowed disabled:opacity-60"
+            className="min-h-11 md:min-h-10 cursor-pointer bg-accent px-3 text-xs font-heading font-bold text-bg disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {saving ? '...' : 'Salvar'}
+            {saving ? 'Salvando…' : 'Salvar'}
           </button>
           <button
             type="button"
             onClick={() => setEditing(false)}
-            className="min-h-9 cursor-pointer px-2 text-xs text-neutral-700"
+            className="min-h-11 md:min-h-10 cursor-pointer px-2 text-xs text-neutral-700"
           >
             Cancelar
           </button>
         </div>
         {showRoleWarning && (
           <p className="mt-1 text-[11px] text-accent-700">
-            Já existe outro item com esse papel — só o primeiro entra nos cálculos do dashboard.
+            Já existe um recorrente marcado como {ROLE_LABEL[form.role]}. Só o primeiro conta no
+            Resumo.
           </p>
         )}
         {error && <p className="mt-1 text-[11px] text-accent-700">{error}</p>}
@@ -194,7 +193,7 @@ export function FixedItemRow({
         {category?.name ?? '—'}
       </span>
       {item.role !== 'NORMAL' && (
-        <span className="shrink-0 text-[10px] tracking-[.04em] text-neutral-700 uppercase">
+        <span className="shrink-0 text-[11px] tracking-[.08em] text-neutral-700 uppercase">
           {ROLE_LABEL[item.role]}
         </span>
       )}
@@ -207,7 +206,7 @@ export function FixedItemRow({
           e.stopPropagation();
           toggleActive();
         }}
-        className={`shrink-0 text-[10px] tracking-[.04em] uppercase ${
+        className={`shrink-0 text-[11px] tracking-[.08em] uppercase ${
           item.active ? 'text-text' : 'text-neutral-700'
         }`}
       >
@@ -219,7 +218,7 @@ export function FixedItemRow({
           e.stopPropagation();
           remove();
         }}
-        aria-label="Excluir item fixo"
+        aria-label="Excluir recorrente"
         className="shrink-0 cursor-pointer px-1 text-neutral-700 hover:text-accent"
       >
         ×

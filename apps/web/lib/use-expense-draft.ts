@@ -50,8 +50,8 @@ function contextualHint(draft: ExpenseDraft, summary: DashboardSummary | null): 
     return `Cartão até agora: ${formatCurrency(summary.cardTotal)} — vira a fatura do mês que vem.`;
   }
   return draft.fixedItemId
-    ? 'Orçado preenchido a partir do item fixo cadastrado.'
-    : 'Fixo exige orçado. Digite um nome já cadastrado pra preencher sozinho.';
+    ? 'Orçado preenchido pelo recorrente.'
+    : 'Fixo precisa de um valor orçado. Digite o nome de um recorrente pra preencher sozinho.';
 }
 
 /** Estado de rascunho compartilhado entre QuickEntryRow (desktop) e QuickEntrySheet (mobile). */
@@ -137,7 +137,7 @@ export function useExpenseDraft(month: string, onSaved?: () => void) {
     if (draft.type === 'FIXO') {
       budget = parseAmount(draft.budget);
       if (!budget) {
-        setError('Fixo exige orçado.');
+        setError('Informe o orçado do fixo.');
         return;
       }
     } else if (draft.type === 'CARTAO' && draft.budget.trim()) {

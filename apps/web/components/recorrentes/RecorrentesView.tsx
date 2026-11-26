@@ -26,7 +26,7 @@ export function RecorrentesView() {
       .catch((err) => {
         if (!ignore) {
           setError(
-            err instanceof ApiError ? err.message : 'Não foi possível carregar os itens fixos.',
+            err instanceof ApiError ? err.message : 'Não foi possível carregar os recorrentes.',
           );
         }
       });
@@ -57,7 +57,7 @@ export function RecorrentesView() {
         (items === null ? (
           <p className="text-sm text-neutral-700">Carregando…</p>
         ) : items.length === 0 ? (
-          <p className="text-sm text-neutral-700">Nenhum item fixo cadastrado.</p>
+          <p className="text-sm text-neutral-700">Nenhum recorrente cadastrado.</p>
         ) : (
           items.map((item) => (
             <FixedItemRow

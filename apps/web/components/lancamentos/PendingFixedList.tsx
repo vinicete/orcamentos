@@ -32,7 +32,7 @@ export function PendingFixedList({ items, onPaid }: { items: PendingItem[]; onPa
 
   return (
     <div className="border-2 border-text p-4">
-      <SectionLabel className="text-accent">Fixos pendentes</SectionLabel>
+      <SectionLabel className="text-accent">A pagar</SectionLabel>
       <ul className="mt-2">
         {items.map((item) => (
           <li
@@ -58,7 +58,7 @@ export function PendingFixedList({ items, onPaid }: { items: PendingItem[]; onPa
               <button
                 type="button"
                 onClick={() => startPay(item)}
-                className="shrink-0 text-xs tracking-[.04em] text-neutral-700 uppercase underline decoration-dotted"
+                className="shrink-0 text-xs tracking-[.08em] text-neutral-700 uppercase underline decoration-dotted"
               >
                 pendente
               </button>

@@ -31,7 +31,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="flex size-9 shrink-0 cursor-pointer items-center justify-center text-text hover:bg-text/7"
+      className="flex size-11 md:size-10 shrink-0 cursor-pointer items-center justify-center text-text hover:bg-text/7"
     >
       {dark ? <Sun className="size-[18px]" /> : <Moon className="size-[18px]" />}
     </button>

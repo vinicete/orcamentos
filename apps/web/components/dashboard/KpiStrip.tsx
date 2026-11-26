@@ -6,7 +6,7 @@ export function KpiStrip({ summary }: { summary: DashboardSummary }) {
     { label: 'Gasto do mês', value: formatCurrency(summary.totalSpent) },
     { label: 'Adicionais', value: formatCurrency(summary.additionalSpent) },
     { label: 'Cartão', value: formatCurrency(summary.cardTotal) },
-    { label: 'Nº de lançamentos', value: String(summary.entryCount) },
+    { label: 'Lançamentos', value: String(summary.entryCount) },
   ];
 
   return (

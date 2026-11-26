@@ -25,7 +25,7 @@ export function SignOutButton() {
       variant="secondary"
       onClick={onClick}
       disabled={loading}
-      className="min-h-9 px-3 text-[11px] tracking-[.08em] uppercase"
+      className="min-h-11 md:min-h-10 px-3 text-[11px] tracking-[.08em] uppercase"
     >
       Sair
     </Button>

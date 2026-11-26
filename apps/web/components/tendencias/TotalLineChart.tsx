@@ -51,7 +51,7 @@ export function TotalLineChart({ months, average }: { months: TrendMonth[]; aver
       </svg>
 
       <span
-        className="absolute -translate-y-full text-[10px] text-neutral-700"
+        className="absolute -translate-y-full text-[11px] text-neutral-700"
         style={{ left: `${pctX(WIDTH - PADDING_X)}%`, top: `${pctY(avgY) - 1}%` }}
       >
         média {formatCurrencyShort(average)}
@@ -63,13 +63,13 @@ export function TotalLineChart({ months, average }: { months: TrendMonth[]; aver
           <div key={m.month} className="absolute top-0 bottom-0" style={{ left: `${pctX(cx)}%` }}>
             {m.total > 0 && (
               <span
-                className="absolute -translate-x-1/2 -translate-y-full text-[10px] font-semibold whitespace-nowrap text-text"
+                className="absolute -translate-x-1/2 -translate-y-full text-[10px] font-semibold md:text-[11px] whitespace-nowrap text-text"
                 style={{ top: `${pctY(y(m.total)) - 2}%` }}
               >
                 {formatCurrencyShort(m.total)}
               </span>
             )}
-            <span className="absolute bottom-0 -translate-x-1/2 text-[10px] tracking-[.04em] whitespace-nowrap text-neutral-700 uppercase">
+            <span className="absolute bottom-0 -translate-x-1/2 text-[11px] tracking-[.08em] whitespace-nowrap text-neutral-700 uppercase">
               {monthShortLabel(m.month)}
             </span>
           </div>

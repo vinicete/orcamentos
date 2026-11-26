@@ -39,7 +39,7 @@ export function NewFixedItemForm({
       setCategoryId('');
       onCreated();
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Não foi possível criar o item fixo.');
+      setError(err instanceof ApiError ? err.message : 'Não foi possível criar o recorrente.');
     } finally {
       setSaving(false);
     }
@@ -86,7 +86,7 @@ export function NewFixedItemForm({
           </select>
         </div>
         <Button type="button" onClick={submit} disabled={saving}>
-          {saving ? '...' : 'Adicionar'}
+          {saving ? 'Adicionando…' : 'Adicionar'}
         </Button>
       </div>
       {error && <p className="mt-2 text-[11px] text-accent-700">{error}</p>}

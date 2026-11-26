@@ -8,8 +8,8 @@ preciso. Cada etapa vai pra produção sozinha pela Vercel ao mergear na `main`,
 A única ideia que exigiria backend (orçamento por categoria, precisa de migration) ficou de fora,
 em §4.
 
-**Andamento:** hero do login (parte da 14.3) e 14.8 feitos em 2026-11-24, log em
-[fase-14-8-dark-mode.md](log/fase-14-8-dark-mode.md). O resto aguarda aprovação do protótipo.
+**Andamento:** 14.8 feita em 2026-11-24; 14.3 e 14.10 em 2026-11-26 (logs em `docs/log/`). O resto
+aguarda aprovação do protótipo.
 
 ## 0. Diagnóstico (o que motivou o plano)
 
@@ -66,15 +66,21 @@ em §4.
 - **Verificação:** em 375px e 768px o resumo aparece, quitar um pendente atualiza resumo e lista;
   no desktop nada muda além de uma requisição a menos.
 
-### 14.3 — Textos
+### 14.3 — Textos ✅
 
-- ✅ `AuthShell`: hero escolhido em §1.1; rodapé virou "Fixo · Adicional · Cartão".
-- `app/layout.tsx`: `metadata.description` alinhada ao novo hero.
-- Formulário: placeholder "ex.: mercado"; "ADD ↵" → "LANÇAR ↵"; hint de topo → "Escolha o tipo,
-  preencha e aperte Enter."
-- `FixedItemsTable`: "Delta" → "Diferença".
-- Remover `PlaceholderView` (não é usado por nenhuma tela).
-- **Verificação:** varrer `apps/web` atrás de texto em inglês ou dado pessoal em placeholder.
+Feita em 2026-11-26, log em [fase-14-3-textos.md](log/fase-14-3-textos.md).
+
+- `AuthShell`: hero escolhido em §1.1; rodapé virou "Fixo · Adicional · Cartão".
+- `app/layout.tsx`: `metadata.description` igual ao subtítulo do hero.
+- Formulário: placeholder "ex.: mercado"; "ADD ↵" → "LANÇAR ↵"; dica → "Escolha o tipo, preencha e
+  aperte Enter."; "Orçado (opc.)" → "Orçado (opcional)"; dicas e erro do fixo reescritos.
+- "item fixo" → "recorrente" em toda a UI (mesmo nome da tela no menu).
+- Menu "Dashboard" → "Resumo" (a rota continua `/dashboard`).
+- Títulos: "Gasto × orçado", "Cartão no mês", "A pagar", "Fixos · orçado × gasto", "Diferença",
+  KPI "Lançamentos".
+- Botões mostram "Salvando…"/"Adicionando…" em vez de "...".
+- Removido `PlaceholderView` (não era usado).
+- Uma mensagem da API (categoria em uso) também mudou: só aparece depois do deploy na VM.
 
 ### 14.4 — Hierarquia de cor e lista
 
@@ -133,6 +139,17 @@ em §4.
   escolha salva, segue o sistema e acompanha se ele mudar. Ficou com dois estados em vez de
   claro/escuro/sistema: pra voltar a "seguir o sistema" basta limpar a escolha (não há botão).
 - Script inline no `<head>` do `app/layout.tsx` aplica a classe antes da primeira pintura.
+
+### 14.10 — Polimento visual ✅
+
+Fora do plano original, pedido em 2026-11-26. Só aparência, log em
+[fase-14-10-polimento-visual.md](log/fase-14-10-polimento-visual.md).
+
+- Números com largura fixa (`tabular-nums` no `body`).
+- Texto mínimo de 11 px (gráficos de Tendências: 10 px no celular por falta de espaço).
+- Alturas de botão e campo: 44 px no celular, 40 px no desktop.
+- Espaçamento de letras em maiúsculas: só `.08em` e `.1em`.
+- `theme-color` acompanhando o tema; ponto do logo vira quadrado, igual ao favicon.
 
 ### 14.9 — PWA instalável (opcional)
 

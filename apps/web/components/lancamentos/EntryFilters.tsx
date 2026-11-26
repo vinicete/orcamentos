@@ -29,7 +29,7 @@ function TypeFilter({
             key={opt.value || 'all'}
             type="button"
             onClick={() => onChange(opt.value)}
-            className={`border-r border-divider px-3 py-2 text-xs font-heading tracking-[.06em] whitespace-nowrap uppercase last:border-r-0 ${
+            className={`border-r border-divider px-3 py-2 text-xs font-heading tracking-[.08em] whitespace-nowrap uppercase last:border-r-0 ${
               value === opt.value ? 'bg-accent text-bg' : 'bg-transparent text-text'
             }`}
           >
@@ -72,7 +72,7 @@ export function EntryFilters({
         onChange={(e) => onCategoryChange(e.target.value)}
         className="min-h-11 border border-divider bg-surface px-2.5 text-sm text-text"
       >
-        <option value="">Todas categorias</option>
+        <option value="">Todas as categorias</option>
         {categories.map((c) => (
           <option key={c.id} value={c.id}>
             {c.name}

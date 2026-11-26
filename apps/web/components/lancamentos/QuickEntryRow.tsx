@@ -20,8 +20,8 @@ export function QuickEntryRow({ draft: d }: { draft: Draft }) {
         <h6 className="font-heading text-[13px] tracking-[.08em] text-accent uppercase">
           Novo lançamento
         </h6>
-        <span className="text-[11px] tracking-[.04em] text-neutral-700">
-          Tipo primeiro — depois é uma linha e Enter.
+        <span className="text-[11px] tracking-[.08em] text-neutral-700">
+          Escolha o tipo, preencha e aperte Enter.
         </span>
       </div>
 
@@ -33,20 +33,20 @@ export function QuickEntryRow({ draft: d }: { draft: Draft }) {
 
       <div className="flex flex-wrap items-end gap-2.5">
         <div className="min-w-40 flex-1">
-          <label className="mb-1 block text-[10px] tracking-[.1em] text-neutral-700 uppercase">
+          <label className="mb-1 block text-[11px] tracking-[.1em] text-neutral-700 uppercase">
             Descrição
           </label>
           <input
             value={draft.description}
             onChange={(e) => setField('description', e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="uber isa"
+            placeholder="ex.: mercado"
             className="min-h-10 w-full border border-divider bg-surface px-2.5 py-2 text-sm text-text"
           />
         </div>
 
         <div className="w-32">
-          <label className="mb-1 block text-[10px] tracking-[.1em] text-neutral-700 uppercase">
+          <label className="mb-1 block text-[11px] tracking-[.1em] text-neutral-700 uppercase">
             Valor
           </label>
           <input
@@ -60,8 +60,8 @@ export function QuickEntryRow({ draft: d }: { draft: Draft }) {
 
         {draft.type !== 'ADICIONAL' && (
           <div className="w-32">
-            <label className="mb-1 block text-[10px] tracking-[.1em] text-neutral-700 uppercase">
-              {draft.type === 'FIXO' ? 'Orçado' : 'Orçado (opc.)'}
+            <label className="mb-1 block text-[11px] tracking-[.1em] text-neutral-700 uppercase">
+              {draft.type === 'FIXO' ? 'Orçado' : 'Orçado (opcional)'}
             </label>
             <input
               value={draft.budget}
@@ -74,7 +74,7 @@ export function QuickEntryRow({ draft: d }: { draft: Draft }) {
         )}
 
         <div className="w-40">
-          <label className="mb-1 block text-[10px] tracking-[.1em] text-neutral-700 uppercase">
+          <label className="mb-1 block text-[11px] tracking-[.1em] text-neutral-700 uppercase">
             Categoria
           </label>
           <CategorySelect
@@ -85,7 +85,7 @@ export function QuickEntryRow({ draft: d }: { draft: Draft }) {
         </div>
 
         <div className="w-36">
-          <label className="mb-1 block text-[10px] tracking-[.1em] text-neutral-700 uppercase">
+          <label className="mb-1 block text-[11px] tracking-[.1em] text-neutral-700 uppercase">
             Data
           </label>
           <input
@@ -102,7 +102,7 @@ export function QuickEntryRow({ draft: d }: { draft: Draft }) {
           disabled={saving}
           className="inline-flex min-h-10 cursor-pointer items-center justify-center bg-accent px-3.5 text-[13px] font-heading font-bold text-bg hover:bg-accent-600 active:bg-accent-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {saving ? '...' : 'ADD ↵'}
+          {saving ? 'Salvando…' : 'LANÇAR ↵'}
         </button>
       </div>
 

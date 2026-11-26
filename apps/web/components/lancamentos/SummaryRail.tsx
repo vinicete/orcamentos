@@ -53,7 +53,7 @@ export function SummaryRail({
   return (
     <aside className={className}>
       <div className="mb-4 border-2 border-text p-4">
-        <SectionLabel className="text-accent">Total x orçado</SectionLabel>
+        <SectionLabel className="text-accent">Gasto × orçado</SectionLabel>
         <div className="mt-1.5 font-heading text-2xl font-bold">
           {formatCurrency(summary.totalSpent)}
         </div>
@@ -75,7 +75,7 @@ export function SummaryRail({
       </div>
 
       <div className="mb-4 border-2 border-text p-4">
-        <SectionLabel className="text-accent">Cartão acumulado</SectionLabel>
+        <SectionLabel className="text-accent">Cartão no mês</SectionLabel>
         <div className="mt-1.5 font-heading text-2xl font-bold">
           {formatCurrency(summary.cardTotal)}
         </div>

@@ -29,9 +29,7 @@ export function DashboardView({ month }: { month: string }) {
       })
       .catch((err) => {
         if (!ignore) {
-          setError(
-            err instanceof ApiError ? err.message : 'Não foi possível carregar o dashboard.',
-          );
+          setError(err instanceof ApiError ? err.message : 'Não foi possível carregar o resumo.');
         }
       });
     return () => {

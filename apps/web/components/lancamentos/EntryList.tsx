@@ -81,7 +81,7 @@ export function EntryList({
       <div className="mb-2 flex items-baseline justify-between border-b-2 border-text pb-1.5">
         <SectionLabel>
           {error
-            ? 'Erro ao carregar'
+            ? 'Não foi possível carregar.'
             : expenses
               ? `${expenses.length} lançamento${expenses.length === 1 ? '' : 's'} · ${monthShortLabel(month)}`
               : 'Carregando…'}

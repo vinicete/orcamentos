@@ -18,13 +18,13 @@ export function FixedItemsTable({ items }: { items: FixedItemRow[] }) {
 
   return (
     <div className="border-2 border-text p-4">
-      <SectionLabel className="mb-3 text-accent">Fixos · orçado x realizado</SectionLabel>
+      <SectionLabel className="mb-3 text-accent">Fixos · orçado × gasto</SectionLabel>
       <div>
-        <div className="flex items-center gap-3 border-b-2 border-text pb-1.5 text-[10px] tracking-[.08em] text-neutral-700 uppercase">
+        <div className="flex items-center gap-3 border-b-2 border-text pb-1.5 text-[11px] tracking-[.08em] text-neutral-700 uppercase">
           <span className="min-w-0 flex-1">Item</span>
           <span className="w-24 shrink-0 text-right">Orçado</span>
           <span className="w-24 shrink-0 text-right">Realizado</span>
-          <span className="w-24 shrink-0 text-right">Delta</span>
+          <span className="w-24 shrink-0 text-right">Diferença</span>
         </div>
         {items.map((row) => (
           <div

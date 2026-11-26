@@ -45,7 +45,7 @@ export function QuickEntrySheet({ draft: d }: { draft: Draft }) {
 
           <div className="mb-2.5 flex gap-2.5">
             <div className="flex-1">
-              <label className="mb-1 block text-[10px] tracking-[.1em] text-neutral-700 uppercase">
+              <label className="mb-1 block text-[11px] tracking-[.1em] text-neutral-700 uppercase">
                 Valor
               </label>
               <input
@@ -58,8 +58,8 @@ export function QuickEntrySheet({ draft: d }: { draft: Draft }) {
             </div>
             {draft.type !== 'ADICIONAL' && (
               <div className="w-28">
-                <label className="mb-1 block text-[10px] tracking-[.1em] text-neutral-700 uppercase">
-                  {draft.type === 'FIXO' ? 'Orçado' : 'Orçado (opc.)'}
+                <label className="mb-1 block text-[11px] tracking-[.1em] text-neutral-700 uppercase">
+                  {draft.type === 'FIXO' ? 'Orçado' : 'Orçado (opcional)'}
                 </label>
                 <input
                   value={draft.budget}
@@ -71,17 +71,17 @@ export function QuickEntrySheet({ draft: d }: { draft: Draft }) {
             )}
           </div>
 
-          <label className="mb-1 block text-[10px] tracking-[.1em] text-neutral-700 uppercase">
+          <label className="mb-1 block text-[11px] tracking-[.1em] text-neutral-700 uppercase">
             Descrição
           </label>
           <input
             value={draft.description}
             onChange={(e) => setField('description', e.target.value)}
-            placeholder="uber isa"
+            placeholder="ex.: mercado"
             className="mb-2.5 min-h-11 w-full border border-divider bg-surface px-3 py-2.5 text-base text-text"
           />
 
-          <label className="mb-1 block text-[10px] tracking-[.1em] text-neutral-700 uppercase">
+          <label className="mb-1 block text-[11px] tracking-[.1em] text-neutral-700 uppercase">
             Categoria
           </label>
           <CategoryChips
