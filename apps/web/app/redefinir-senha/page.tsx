@@ -5,7 +5,7 @@ import { Suspense, useState, type FormEvent } from 'react';
 import { AuthLink } from '@/components/auth/AuthLink';
 import { AuthShell } from '@/components/auth/AuthShell';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
 import { authClient } from '@/lib/auth-client';
 import { authErrorMessage } from '@/lib/auth-errors';
@@ -48,9 +48,8 @@ function ResetForm() {
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <div>
         <Label htmlFor="password">Nova senha (mín. 8 caracteres)</Label>
-        <Input
+        <PasswordInput
           id="password"
-          type="password"
           required
           minLength={8}
           autoComplete="new-password"
